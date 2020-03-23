@@ -102,7 +102,6 @@ void Projectile(){
   float PointAx = 50;
   float PointAy = 50;
   stroke(255);
-  strokeWeight(5);
   line(PointAx,PointAy,50,60);
 }
 
