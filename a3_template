@@ -29,6 +29,8 @@ void setup(){
   //initialise pvtecotrs 
   //random astroid initial positions and directions;
   //initialise shapes if needed
+  
+
 }
 
 /**************************************************************
@@ -78,8 +80,41 @@ void collisionDetection(){
   //check if ship as collided wiht astroids
 }
 
+void AlienShip(){
+  //Alien Ship Design - by BN - 22/03/2020
+  //float AlienShipxc = random(100,700); - random pos later
+  float AlienShipxc = 100; // x co-ord
+  float AlienShipyc = 100; // y co-ord
+  float AlienShipxw = 100; // width
+  float AlienShipyh = 50; // height
+  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // objec
+  fill(153); // fill colour in object
+  
+  //smaller ellipse on Alien Ship (centred circle
+  float AlienShipxc2 = 100; // x co-ord
+  float AlienShipyc2 = 100; // y co-ord
+  float AlienShipxw2 = 60; // width
+  float AlienShipyh2 = 25; // height
+  ellipse(AlienShipxc2,AlienShipyc2,AlienShipxw2,AlienShipyh2); // object
+}
+
 void draw(){
   background(0);
+
+  AlienShip(); // load AlienShip
+  
+  //Player ship design - by BN - 22/03/2020
+  //float PlayerShipx1 = 350; // first point x
+  //float PlayerShipy1 = 750; // first point y
+  //float PlayerShipx2 = 400; // second point x
+  //float PlayerShipy2 = 700; // second point y
+  //float PlayerShipx3 = 450; // second point x
+  //float PlayerShipy3 = 750; // second point y
+  //stroke(255); // colour of object
+  //triangle(PlayerShipx1,PlayerShipy1,PlayerShipx2,PlayerShipy2,PlayerShipx3,PlayerShipy3); // object
+  
+  
+  
   //might be worth checking to see if you are still alive first
   moveShip();
   collisionDetection();
