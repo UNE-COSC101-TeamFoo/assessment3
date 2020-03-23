@@ -98,11 +98,19 @@ void AlienShip(){
   ellipse(AlienShipxc2,AlienShipyc2,AlienShipxw2,AlienShipyh2); // object
 }
 
+void Projectile(){
+  float PointAx = 50;
+  float PointAy = 50;
+  stroke(255);
+  line(PointAx,PointAy,50,60);
+}
+
 void draw(){
   background(0);
 
   AlienShip(); // load AlienShip
-  
+  Projectile();
+
   //Player ship design - by BN - 22/03/2020
   //float PlayerShipx1 = 350; // first point x
   //float PlayerShipy1 = 750; // first point y
