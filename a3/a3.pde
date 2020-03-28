@@ -85,16 +85,16 @@ void AlienShip(){
   //float AlienShipxc = random(100,700); - random pos later
   float AlienShipxc = 100; // x co-ord
   float AlienShipyc = 100; // y co-ord
-  float AlienShipxw = 100; // width
-  float AlienShipyh = 50; // height
-  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // objec
+  float AlienShipxw = 50; // width
+  float AlienShipyh = 25; // height
+  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // object
   fill(153); // fill colour in object
   
   //smaller ellipse on Alien Ship (centred circle
   float AlienShipxc2 = 100; // x co-ord
   float AlienShipyc2 = 100; // y co-ord
-  float AlienShipxw2 = 60; // width
-  float AlienShipyh2 = 25; // height
+  float AlienShipxw2 = 30; // width
+  float AlienShipyh2 = 12.5; // height
   ellipse(AlienShipxc2,AlienShipyc2,AlienShipxw2,AlienShipyh2); // object
 }
 
