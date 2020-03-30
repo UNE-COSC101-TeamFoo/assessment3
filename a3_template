@@ -24,6 +24,23 @@ ArrayList sDirections= new ArrayList();
 boolean sUP=false,sDOWN=false,sRIGHT=false,sLEFT=false;
 int score=0;
 boolean alive=true;
+
+//variables to store the numbers required to generate the asteroid shape
+//note: once we generate multiple asteroids at the same time, will need a permanent way of storing the shape generated for each asteroid.
+float length1 = random (5 , 45);
+float length2 = random (50 , 95);
+float length3 = random (50 , 95);
+float length4 = random (5 , 45);
+float height1 = random (5 , 20);
+float height2 = random (30 , 45);
+float height3 = random (30 , 45);
+float height4 = random (5 , 20);
+float inner1 = random (30, 50);
+float inner2 = random (15, 20);
+float inner3 = random (30, 50);
+float inner4 = random (15, 20);
+
+
 void setup(){
   size(800,800);
   //initialise pvtecotrs 
@@ -125,4 +142,71 @@ void keyReleased() {
       sLEFT=false;
     }
   }
+}
+
+void drawLargeAsteroid() {
+  // will need to add the start position to these values once that is known
+  stroke(153);
+  noFill();
+  beginShape();
+ //vertex(0, 0);//1
+  vertex(length1, 0);//2
+  vertex(inner1, 10);//3
+  vertex(length2, 0);//4
+ // vertex(100, 0);//5
+  vertex(100, height1);//6
+  vertex(90, inner2);//7
+  vertex(100, height2);//8
+  //vertex(100, 50);//9
+  vertex(length3, 50);//10
+  vertex(inner3, 40);//11
+  vertex(length4, 50);//12
+  //vertex(0, 50);//13
+  vertex(0, height3);//14
+  vertex(10, inner4);//15
+  vertex(0, height4);//16
+  vertex(length1, 0);
+  endShape();
+}
+
+void drawMediumAsteroid() {
+  // will need to add the start position to these values once that is known
+  stroke(153);
+  noFill();
+  beginShape();
+  vertex(length1/2, 0);//2
+  vertex(inner1/2, 5);//3
+  vertex(length2/2, 0);//4
+  vertex(50, height1/2);//6
+  vertex(45, inner2/2);//7
+  vertex(50, height2/2);//8
+  vertex(length3/2, 25);//10
+  vertex(inner3/2, 20);//11
+  vertex(length4/2, 25);//12
+  vertex(0, height3/2);//14
+  vertex(5, inner4/2);//15
+  vertex(0, height4/2);//16
+  vertex(length1/2, 0);
+  endShape();
+}
+
+void drawSmallAsteroid() {
+  // will need to add the start position to these values once that is known
+  stroke(153);
+  noFill();
+  beginShape();
+  vertex(length1/4, 0);//2
+  vertex(inner1/4, 2.5);//3
+  vertex(length2/4, 0);//4
+  vertex(25, height1/4);//6
+  vertex(22.5, inner2/4);//7
+  vertex(25, height2/4);//8
+  vertex(length3/4, 12.5);//10
+  vertex(inner3/4, 10);//11
+  vertex(length4/4, 12.5);//12
+  vertex(0, height3/4);//14
+  vertex(2.5, inner4/4);//15
+  vertex(0, height4/4);//16
+  vertex(length1/4, 0);
+  endShape();
 }
