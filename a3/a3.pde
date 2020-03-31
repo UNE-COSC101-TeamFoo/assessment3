@@ -107,6 +107,7 @@ void draw(){
 
   AlienShip(); // load AlienShip
   Projectile();
+  explosion(300,300);
 
   /*HAVE COMMENTED OUT AS UPDATED INTO A FUNCTION
   BY CS on 28/03/202
@@ -191,15 +192,62 @@ void drawPlyrShip(int x1, int y1, int x3, int y3) {
 }
 
 
-/*
-void explosion(int x, int y) {
-  int explosionX[];
-  int explosionLimiter;
+// Created by CS on 29/03/20
+// Function to animate and draw the explosions
+// Only parameters needed are the origin x and y location of the explosion
+
+void explosion(int originX, int originY) {
   
-  for (explosionLimiter = 0; explosionLimiter < 10; explosionLimiter++) {
-    for (int i = 0; i < 15; i++) {
-      explosion[]
+  //Create array for PVectors to be intialized into
+  PVector explosionLoc[] = new PVector[11];
   
   
+  // Array for the relative positions of the singular explosion particles
+  // in relation to the origin x and y locations
+  int explosionX[] = {-50,-45,-35,-20,-10,0,15,20,35,40,50};
+  int explosionY[] = {0,-20,45,10,40,-30,50,-15,-60,0,10};
+  
+  // This variable will be used to lighten the particles as the move out 
+  // (Might use transparency instead of plain colour)
+  int explosionOpacity = 255;
+  
+  // For loop to initialise the Particle PVector objects with the 
+  // relative x and y coords
+  for (int i = 0; i < explosionLoc.length; i++) {
+    
+    explosionLoc[i] = new PVector(originX + explosionX[i], originY + explosionY[i]);
+  }
+  
+  //Dont want outlines for the particles
+  noStroke();
+  
+  
+  /* Below is a two loop structure - this is necessary to draw each particle and 
+    to make sure each particle is drawn 10 times with reducing opacity */
+  for (int j = 0; j < explosionLoc.length; j++) {
+    fill(255, explosionOpacity);
+    explosionOpacity -= 25;
+    
+    // This is the loop to draw each particle, and increment the particle's
+    // PVector x and y coords so that it expands
+    for (int k = 0; k < explosionLoc.length; k++) {
+      rect(explosionLoc[k].x, explosionLoc[k].y, 5, 5);
+      
+      // Conditional increment depending on relative pos to origin
+      // AKA expanding
+      
+      if (explosionLoc[k].x < originX) {
+        explosionLoc[k].x -= 5;
+      }
+      else if (explosionLoc[k].x > originX) {
+        explosionLoc[k].x += 5;
+      }
+      if (explosionLoc[k].y < originY) {
+        explosionLoc[k].y -= 5;
+      }
+      else if (explosionLoc[k].y > originY) {
+        explosionLoc[k].y += 5;
+      }
+    }
+  }
 }
-*/
