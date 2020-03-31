@@ -1,4 +1,3 @@
-  
 /**************************************************************
 * File: a3.pde
 * Group: <Benjamin Nolan,Elsa Gaskell,Callum Sandercock>
@@ -36,11 +35,21 @@ void setup(){
 
 /**************************************************************
 * Function: myFunction()
+<<<<<<< HEAD
 * Parameters: None ( could be integer(x), integer(y) or String(myStr))
 * Returns: Void ( again this could return a String or integer/float type )
 * Desc: Each funciton should have appropriate documentation. 
         This is designed to benefit both the marker and your team mates.
         So it is better to keep it up to date, same with usage in the header comment
+
+* Parameters: None ( could be integer(x), integer(y) or String(myStr))
+
+* Returns: Void ( again this could return a String or integer/float type )
+
+* Desc: Each funciton should have appropriate documentation. 
+        This is designed to benefit both the marker and your team mates.
+        So it is better to keep it up to date, same with usage in the header comment
+
 ***************************************************************/
 
 void moveShip(){
@@ -82,16 +91,19 @@ void AlienShip(){
   //float AlienShipxc = random(100,700); - random pos later
   float AlienShipxc = 100; // x co-ord
   float AlienShipyc = 100; // y co-ord
-  float AlienShipxw = 100; // width
-  float AlienShipyh = 50; // height
-  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // objec
+
+  float AlienShipxw = 50; // width
+  float AlienShipyh = 25; // height
+  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // object
   fill(153); // fill colour in object
   
   //smaller ellipse on Alien Ship (centred circle
   float AlienShipxc2 = 100; // x co-ord
   float AlienShipyc2 = 100; // y co-ord
-  float AlienShipxw2 = 60; // width
-  float AlienShipyh2 = 25; // height
+
+  float AlienShipxw2 = 30; // width
+  float AlienShipyh2 = 12.5; // height
+
   ellipse(AlienShipxc2,AlienShipyc2,AlienShipxw2,AlienShipyh2); // object
 }
 
@@ -101,6 +113,7 @@ void Projectile(){
   stroke(255);
   line(PointAx,PointAy,50,60);
   noLoop();
+
 }
 
 void draw(){
@@ -124,10 +137,10 @@ void draw(){
   triangle(PlayerShipx1,PlayerShipy1,PlayerShipx2,PlayerShipy2,PlayerShipx3,PlayerShipy3); // object
  */ 
  
- // Updated the Player Ship Design - by CS - 28/
+ // Updated the Player Ship Design - by CS - 28/03/20
  // Work out what the Middle pos is for the Ship start location
- drawPlyrShip(400, 400, 400, 435); 
-  
+ drawPlyrShip(width/2,height/2); 
+
   
   //might be worth checking to see if you are still alive first
   moveShip();
@@ -178,14 +191,16 @@ void keyReleased() {
 
 
 // Created by CS on 28/03/20
-// Function to dra the ship - might be based on only one point later
+// Function to draw the ship
 // Unsure how to move this around/change direction
 // Update shape to look more pointed
-void drawPlyrShip(int x1, int y1, int x3, int y3) {
+void drawPlyrShip(int x1, int y1) {
   // Work out the other points of the ship
   //These wont change as ship will not resize
   int x2 = x1 - 15;
   int y2 = y1 + 50;
+  int x3 = x1;
+  int y3 = y1 + 35;
   int x4 = x1 + 15;
   int y4 = y1 + 50;
   stroke(255);
