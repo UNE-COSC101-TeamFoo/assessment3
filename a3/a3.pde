@@ -39,13 +39,13 @@ float inner1 = random (30, 50);
 float inner2 = random (15, 20);
 float inner3 = random (30, 50);
 float inner4 = random (15, 20);
-
-
 void setup(){
   size(800,800);
   //initialise pvtecotrs 
   //random astroid initial positions and directions;
   //initialise shapes if needed
+  
+
 }
 
 /**************************************************************
@@ -95,8 +95,24 @@ void collisionDetection(){
   //check if ship as collided wiht astroids
 }
 
+
+
 void draw(){
   background(0);
+
+  AlienShip(); // load AlienShip
+  Projectile();
+  explosion(300,300); 
+ 
+ // Updated the Player Ship Design - by CS - 28/03/20
+ drawPlyrShip(width/2,height/2); 
+ 
+ 
+ drawSmallAsteroid();
+ drawMediumAsteroid();
+ drawLargeAsteroid();
+
+  
   //might be worth checking to see if you are still alive first
   moveShip();
   collisionDetection();
@@ -140,6 +156,118 @@ void keyReleased() {
     }
     if (keyCode == LEFT) {
       sLEFT=false;
+    }
+  }
+}
+
+
+void AlienShip(){
+  //Alien Ship Design - by BN - 22/03/2020
+  //float AlienShipxc = random(100,700); - random pos later
+  float AlienShipxc = 100; // x co-ord
+  float AlienShipyc = 100; // y co-ord
+
+  float AlienShipxw = 50; // width
+  float AlienShipyh = 25; // height
+  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // object
+  fill(153); // fill colour in object
+  
+  //smaller ellipse on Alien Ship (centred circle
+  float AlienShipxc2 = 100; // x co-ord
+  float AlienShipyc2 = 100; // y co-ord
+
+  float AlienShipxw2 = 30; // width
+  float AlienShipyh2 = 12.5; // height
+
+  ellipse(AlienShipxc2,AlienShipyc2,AlienShipxw2,AlienShipyh2); // object
+}
+
+void Projectile(){
+  float PointAx = 50;
+  float PointAy = 50;
+  stroke(255);
+  line(PointAx,PointAy,50,60);
+  noLoop();
+
+}
+
+
+// Created by CS on 28/03/20
+// Function to draw the ship
+// Unsure how to move this around/change direction
+// Update shape to look more pointed
+void drawPlyrShip(int x1, int y1) {
+  // Work out the other points of the ship
+  //These wont change as ship will not resize
+  int x2 = x1 - 15;
+  int y2 = y1 + 50;
+  int x3 = x1;
+  int y3 = y1 + 35;
+  int x4 = x1 + 15;
+  int y4 = y1 + 50;
+  stroke(255);
+  quad(x1, y1, x2, y2, x3, y3, x4, y4);
+}
+
+
+
+
+// Created by CS on 29/03/20
+// Function to animate and draw the explosions
+// Only parameters needed are the origin x and y location of the explosion
+
+void explosion(int originX, int originY) {
+  
+  //Create array for PVectors to be intialized into
+  PVector explosionLoc[] = new PVector[11];
+  
+  
+  // Array for the relative positions of the singular explosion particles
+  // in relation to the origin x and y locations
+  int explosionX[] = {-50,-45,-35,-20,-10,0,15,20,35,40,50};
+  int explosionY[] = {0,-20,45,10,40,-30,50,-15,-60,0,10};
+  
+  // This variable will be used to lighten the particles as the move out 
+  // (Might use transparency instead of plain colour)
+  int explosionOpacity = 255;
+  
+  // For loop to initialise the Particle PVector objects with the 
+  // relative x and y coords
+  for (int i = 0; i < explosionLoc.length; i++) {
+    
+    explosionLoc[i] = new PVector(originX + explosionX[i], originY + explosionY[i]);
+  }
+  
+  //Dont want outlines for the particles
+  noStroke();
+  
+  
+  /* Below is a two loop structure - this is necessary to draw each particle and 
+    to make sure each particle is drawn 10 times with reducing opacity */
+  for (int j = 0; j < explosionLoc.length; j++) {
+    fill(160, explosionOpacity);
+    explosionOpacity -= 25;
+    
+    // This is the loop to draw each particle, and increment the particle's
+    // PVector x and y coords so that it expands
+    for (int k = 0; k < explosionLoc.length; k++) {
+      rect(explosionLoc[k].x, explosionLoc[k].y, 5, 5);
+      
+      // Conditional increment depending on relative pos to origin
+      // AKA expanding
+      
+      if (explosionLoc[k].x < originX) {
+        explosionLoc[k].x -= 5;
+      }
+      else if (explosionLoc[k].x > originX) {
+        explosionLoc[k].x += 5;
+      }
+      if (explosionLoc[k].y < originY) {
+        explosionLoc[k].y -= 5;
+      }
+      else if (explosionLoc[k].y > originY) {
+        explosionLoc[k].y += 5;
+      }
     }
   }
 }
@@ -210,3 +338,6 @@ void drawSmallAsteroid() {
   vertex(length1/4, 0);
   endShape();
 }
+        
+  
+  
