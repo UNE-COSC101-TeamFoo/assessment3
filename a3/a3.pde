@@ -10,7 +10,7 @@
 * ...
 **************************************************************/
 
-PShape ship; // don't have to use pshape - can use image
+playerShip player; 
 int astroNums=20;
 PVector[] astroids = new PVector[astroNums];
 PVector[] astroDirect = new PVector[astroNums];
@@ -41,6 +41,7 @@ float inner3 = random (30, 50);
 float inner4 = random (15, 20);
 void setup(){
   size(800,800);
+  player = new playerShip();
   //initialise pvtecotrs 
   //random astroid initial positions and directions;
   //initialise shapes if needed
@@ -61,51 +62,18 @@ void setup(){
 
 ***************************************************************/
 
-void moveShip(){
-  
-  //this function should update if keys are pressed down 
-     // - this creates smooth movement
-  //update rotation,speed and update current location
-  //you should also check to make sure your ship is not outside of the window
-  if(sUP){
-  }
-  if(sDOWN){
-  
-  }
-  if(sRIGHT){
-  }
-  if(sLEFT){
-  }
-}
-void drawShots(){
-   //draw points for each shot from spacecraft 
-   //at location and updated to new location
-}
-
-void drawAstroids(){
-  //check to see if astroid is not already destroyed
-  //otherwise draw at location 
-  //initial direction and location should be randomised
-  //also make sure the astroid has not moved outside of the window
-    
-}
-
-void collisionDetection(){
-  //check if shots have collided with astroids
-  //check if ship as collided wiht astroids
-}
-
-
 
 void draw(){
   background(0);
 
   AlienShip(); // load AlienShip
   Projectile();
-  explosion(300,300); 
+  explosion(300,300);
+  moveShip();
+  // Update Player location and draw
+  player.update();
+  player.render();
  
- // Updated the Player Ship Design - by CS - 28/03/20
- drawPlyrShip(width/2,height/2); 
  
  
  drawSmallAsteroid();
@@ -114,12 +82,11 @@ void draw(){
 
   
   //might be worth checking to see if you are still alive first
-  moveShip();
+  
   collisionDetection();
-  drawShots();
-  // draw ship - call shap(..) if Pshape
+  //drawShots();
   // report if game over or won
-  drawAstroids();
+  //drawAstroids();
   // draw score
 }
 
@@ -147,6 +114,7 @@ void keyReleased() {
   if (key == CODED) {
     if (keyCode == UP) {
       sUP=false;
+      player.slow();
     }
     if (keyCode == DOWN) {
       sDOWN=false;
@@ -159,6 +127,38 @@ void keyReleased() {
     }
   }
 }
+
+
+
+
+void moveShip(){
+  
+  //this function should update if keys are pressed down 
+     // - this creates smooth movement
+  //update rotation,speed and update current location
+  //you should also check to make sure your ship is not outside of the window
+  if(sUP){
+    player.accel();
+  }
+  if(sDOWN){
+    
+  
+  }
+  if(sRIGHT){
+    player.rotateRight();
+  }
+  if(sLEFT){
+    player.rotateLeft();
+  }
+}
+
+
+void collisionDetection(){
+  //check if shots have collided with astroids
+  //check if ship as collided wiht astroids
+}
+
+
 
 
 void AlienShip(){
@@ -187,30 +187,9 @@ void Projectile(){
   float PointAy = 50;
   stroke(255);
   line(PointAx,PointAy,50,60);
-  noLoop();
+  //noLoop();
 
 }
-
-
-// Created by CS on 28/03/20
-// Function to draw the ship
-// Unsure how to move this around/change direction
-// Update shape to look more pointed
-void drawPlyrShip(int x1, int y1) {
-  // Work out the other points of the ship
-  //These wont change as ship will not resize
-  int x2 = x1 - 15;
-  int y2 = y1 + 50;
-  int x3 = x1;
-  int y3 = y1 + 35;
-  int x4 = x1 + 15;
-  int y4 = y1 + 50;
-  stroke(255);
-  quad(x1, y1, x2, y2, x3, y3, x4, y4);
-}
-
-
-
 
 // Created by CS on 29/03/20
 // Function to animate and draw the explosions
