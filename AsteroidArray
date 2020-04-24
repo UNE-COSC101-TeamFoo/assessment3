@@ -1,7 +1,6 @@
 Asteroid[] asteroids;
 
 int level = 1; // the difficulty level
-int arrayPos = 0; //track what object in the array the code is up to, to allow the asteroid to be modified
 int asteroidCount = 10*level; 
 
 
@@ -49,31 +48,6 @@ void setup(){
   }
 }
 
-void createReplacementAsteroid (int indexTemp) {
-    int index = indexTemp;
-    for (int i = 0; i < asteroidCount; i++) {
-        int xDirection;
-        int yDirection;
-       
-       // set a random direction for each asteroid generated
-        if(random (100) > 50){
-           xDirection = 1; 
-        }
-        else {
-          xDirection = -1;
-        }
-        
-        if(random(100) > 50){
-           yDirection = 1;
-        }
-        else {
-          yDirection = -1;
-        }
-        
-        asteroids[index] = new Asteroid(1, random(75, 725), random(3, 5), xDirection, yDirection); //x axis, y axis, speed, xdirection, ydirection - set x and y to 0
-    }
-}
-
 void drawAstroids(){
   //check to see if astroid is not already destroyed
   //otherwise draw at location 
@@ -86,55 +60,10 @@ void draw(){
   background(0);
   
   for (Asteroid asteroids : asteroids) {
-    
-    arrayPos = arrayPos++;
-    
     asteroids.update();
     asteroids.display();
   }
 }
-
-//void drawMediumAsteroid() {
-//  // will need to add the start position to these values once that is known
-//  stroke(153);
-//  noFill();
-//  beginShape();
-//  vertex(length1/2, 0);//2
-//  vertex(inner1/2, 5);//3
-//  vertex(length2/2, 0);//4
-//  vertex(50, height1/2);//6
-//  vertex(45, inner2/2);//7
-//  vertex(50, height2/2);//8
-//  vertex(length3/2, 25);//10
-//  vertex(inner3/2, 20);//11
-//  vertex(length4/2, 25);//12
-//  vertex(0, height3/2);//14
-//  vertex(5, inner4/2);//15
-//  vertex(0, height4/2);//16
-//  vertex(length1/2, 0);
-//  endShape();
-//}
-
-//void drawSmallAsteroid() {
-//  // will need to add the start position to these values once that is known
-//  stroke(153);
-//  noFill();
-//  beginShape();
-//  vertex(length1/4, 0);//2
-//  vertex(inner1/4, 2.5);//3
-//  vertex(length2/4, 0);//4
-//  vertex(25, height1/4);//6
-//  vertex(22.5, inner2/4);//7
-//  vertex(25, height2/4);//8
-//  vertex(length3/4, 12.5);//10
-//  vertex(inner3/4, 10);//11
-//  vertex(length4/4, 12.5);//12
-//  vertex(0, height3/4);//14
-//  vertex(2.5, inner4/4);//15
-//  vertex(0, height4/4);//16
-//  vertex(length1/4, 0);
-//  endShape();
-//}
 
 void drawLargeAsteroid(int size, float x, float y, float length1, float length2, float length3, float length4, float height1, float height2, float height3, float height4, float inner1, float inner2, float inner3, float inner4) {
   if (size == 1) { // small asteroid
@@ -233,9 +162,20 @@ class Asteroid {
     x = x + (speed * xDirection);
     y = y + (speed * yDirection);
     
-    if ((x <= -50) || (x > 800) || (y <= -50) || (y > 800)) {
-        asteroids[arrayPos] = null;
-        createReplacementAsteroid (arrayPos);
+    if ((x <= 0) || (x > 800) || (y <= 0) || (y > 800)) {
+        
+      if (x <= 0) {
+        x = 799;
+      }
+      if (y <= 0) {
+        y = 799;
+      }
+      if (x > 800) {
+        x = 1;
+      }
+      if (y > 800) {
+        y = 1;
+      }
     }
 
   }
