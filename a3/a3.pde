@@ -24,13 +24,43 @@ ArrayList sDirections= new ArrayList();
 boolean sUP=false,sDOWN=false,sRIGHT=false,sLEFT=false;
 int score=0;
 boolean alive=true;
+
+// EG
+//variables to store the numbers required to generate the asteroid shape
+//note: once we generate multiple asteroids at the same time, will need a permanent way of storing the shape generated for each asteroid.
+float length1 = random (5 , 45);
+float length2 = random (50 , 95);
+float length3 = random (50 , 95);
+float length4 = random (5 , 45);
+float height1 = random (5 , 20);
+float height2 = random (30 , 45);
+float height3 = random (30 , 45);
+float height4 = random (5 , 20);
+float inner1 = random (30, 50);
+float inner2 = random (15, 20);
+float inner3 = random (30, 50);
+float inner4 = random (15, 20);
+
+//AlienShip global vars
+float AlienShipxc,AlienShipyc; // AlienShip Coords
+float AlienShipxc2,AlienShipyc2; // AlienShip Coords
+float AlienShipSpeed = 2; // AlienShip Speed
+float AlienShipxDir = 1; // x Direction of AlienShip to travel
+float AlienShipyDir = 1; // y Direction of AlienShip to travel
+
 void setup(){
+  
   size(800,800);
   //initialise pvtecotrs 
   //random astroid initial positions and directions;
   //initialise shapes if needed
   
-
+  //AlienShip Random Pos
+  AlienShipxc = random(-10,width-10); // random pos - x co-ord
+  AlienShipyc = random(-height-10); // random pos - y co-ord
+  AlienShipxc2 = AlienShipxc; // pos x of Part A of Ship
+  AlienShipyc2 = AlienShipyc; // pos y of Part A of Ship
+  
 }
 
 /**************************************************************
@@ -62,6 +92,7 @@ void moveShip(){
   if(sLEFT){
   }
 }
+
 void drawShots(){
    //draw points for each shot from spacecraft 
    //at location and updated to new location
@@ -80,48 +111,28 @@ void collisionDetection(){
   //check if ship as collided wiht astroids
 }
 
-void AlienShip(){
-  //Alien Ship Design - by BN - 22/03/2020
-  //float AlienShipxc = random(100,700); - random pos later
-  float AlienShipxc = 100; // x co-ord
-  float AlienShipyc = 100; // y co-ord
-  float AlienShipxw = 50; // width
-  float AlienShipyh = 25; // height
-  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // object
-  fill(153); // fill colour in object
-  
-  //smaller ellipse on Alien Ship (centred circle
-  float AlienShipxc2 = 100; // x co-ord
-  float AlienShipyc2 = 100; // y co-ord
-  float AlienShipxw2 = 30; // width
-  float AlienShipyh2 = 12.5; // height
-  ellipse(AlienShipxc2,AlienShipyc2,AlienShipxw2,AlienShipyh2); // object
-}
 
-void Projectile(){
-  float PointAx = 50;
-  float PointAy = 50;
-  stroke(255);
-  line(PointAx,PointAy,50,60);
-}
 
 void draw(){
+  
   background(0);
-
-  AlienShip(); // load AlienShip
-  Projectile();
-
-  //Player ship design - by BN - 22/03/2020
-  //float PlayerShipx1 = 350; // first point x
-  //float PlayerShipy1 = 750; // first point y
-  //float PlayerShipx2 = 400; // second point x
-  //float PlayerShipy2 = 700; // second point y
-  //float PlayerShipx3 = 450; // second point x
-  //float PlayerShipy3 = 750; // second point y
-  //stroke(255); // colour of object
-  //triangle(PlayerShipx1,PlayerShipy1,PlayerShipx2,PlayerShipy2,PlayerShipx3,PlayerShipy3); // object
   
+  // BN
+  //AlienShip(); // AlienShip object
+  AlienShipApproach();
+  //Projectile(); // Projectile object
   
+  // CG
+  //explosion(300,300); 
+   
+  // Updated the Player Ship Design - by CS - 28/03/20
+  //drawPlyrShip(width/2,height/2); 
+ 
+  // EG
+  //drawSmallAsteroid();
+  //drawMediumAsteroid();
+  //drawLargeAsteroid();
+
   
   //might be worth checking to see if you are still alive first
   moveShip();
@@ -129,8 +140,9 @@ void draw(){
   drawShots();
   // draw ship - call shap(..) if Pshape
   // report if game over or won
-  drawAstroids();
+  //drawAstroids();
   // draw score
+  
 }
 
 void keyPressed() {
@@ -169,3 +181,216 @@ void keyReleased() {
     }
   }
 }
+
+
+// BN
+void AlienShip(){
+  
+  //Alien Ship Design - by BN - 22/03/2020
+  
+  // Part A of Ship
+  //float AlienShipxc = random(100,700); // random pos - x co-ord
+  //float AlienShipyc = random(100,700); // random pos - y co-ord
+  //float AlienShipxc = 100; // x co-ord - static
+  //float AlienShipyc = 100; // y co-ord - static
+
+  float AlienShipxw = 50; // width of Part A
+  float AlienShipyh = 25; // height of Part A
+  ellipse(AlienShipxc,AlienShipyc,AlienShipxw,AlienShipyh); // object
+  fill(153); // fill colour in object
+  
+  // Part B of Ship
+  //smaller ellipse on Alien Ship (centred circle)
+  //float AlienShipxc2 = AlienShipxc; // pos x of Part A of Ship
+  //float AlienShipyc2 = AlienShipyc; // pos y of Part A of Ship
+  //float AlienShipxc2 = 100; // x co-ord - static
+  //float AlienShipyc2 = 100; // y co-ord - static
+  float AlienShipxw2 = 30; // width of Part B
+  float AlienShipyh2 = 12.5; // height of Part B
+  ellipse(AlienShipxc2,AlienShipyc2,AlienShipxw2,AlienShipyh2); // object
+  
+}
+
+// BN - 05/04/2020
+void AlienShipApproach(){
+  
+    AlienShip();
+    AlienShipxc = AlienShipxc + (AlienShipSpeed * AlienShipxDir);
+    AlienShipyc = AlienShipyc + (AlienShipSpeed * AlienShipyDir);
+    
+    AlienShipxc2 = AlienShipxc;
+    AlienShipyc2 = AlienShipyc;
+    
+    if(AlienShipxc > (width-100)){
+        AlienShipxDir *= -1;
+    }
+    if(AlienShipyc > (width-100)){
+        AlienShipxDir *= -1;
+    }
+    
+}
+
+// BN
+void Projectile(){
+  float PointAx = 50;
+  float PointAy = 50;
+  stroke(255);
+  line(PointAx,PointAy,50,60);
+  noLoop();
+
+}
+
+
+// Created by CS on 28/03/20
+// Function to draw the ship
+// Unsure how to move this around/change direction
+// Update shape to look more pointed
+void drawPlyrShip(int x1, int y1) {
+  // Work out the other points of the ship
+  //These wont change as ship will not resize
+  int x2 = x1 - 15;
+  int y2 = y1 + 50;
+  int x3 = x1;
+  int y3 = y1 + 35;
+  int x4 = x1 + 15;
+  int y4 = y1 + 50;
+  stroke(255);
+  quad(x1, y1, x2, y2, x3, y3, x4, y4);
+}
+
+
+
+
+// Created by CS on 29/03/20
+// Function to animate and draw the explosions
+// Only parameters needed are the origin x and y location of the explosion
+
+void explosion(int originX, int originY) {
+  
+  //Create array for PVectors to be intialized into
+  PVector explosionLoc[] = new PVector[11];
+  
+  
+  // Array for the relative positions of the singular explosion particles
+  // in relation to the origin x and y locations
+  int explosionX[] = {-50,-45,-35,-20,-10,0,15,20,35,40,50};
+  int explosionY[] = {0,-20,45,10,40,-30,50,-15,-60,0,10};
+  
+  // This variable will be used to lighten the particles as the move out 
+  // (Might use transparency instead of plain colour)
+  int explosionOpacity = 255;
+  
+  // For loop to initialise the Particle PVector objects with the 
+  // relative x and y coords
+  for (int i = 0; i < explosionLoc.length; i++) {
+    
+    explosionLoc[i] = new PVector(originX + explosionX[i], originY + explosionY[i]);
+  }
+  
+  //Dont want outlines for the particles
+  noStroke();
+  
+  
+  /* Below is a two loop structure - this is necessary to draw each particle and 
+    to make sure each particle is drawn 10 times with reducing opacity */
+  for (int j = 0; j < explosionLoc.length; j++) {
+    fill(160, explosionOpacity);
+    explosionOpacity -= 25;
+    
+    // This is the loop to draw each particle, and increment the particle's
+    // PVector x and y coords so that it expands
+    for (int k = 0; k < explosionLoc.length; k++) {
+      rect(explosionLoc[k].x, explosionLoc[k].y, 5, 5);
+      
+      // Conditional increment depending on relative pos to origin
+      // AKA expanding
+      
+      if (explosionLoc[k].x < originX) {
+        explosionLoc[k].x -= 5;
+      }
+      else if (explosionLoc[k].x > originX) {
+        explosionLoc[k].x += 5;
+      }
+      if (explosionLoc[k].y < originY) {
+        explosionLoc[k].y -= 5;
+      }
+      else if (explosionLoc[k].y > originY) {
+        explosionLoc[k].y += 5;
+      }
+    }
+  }
+}
+
+
+// EG
+void drawLargeAsteroid() {
+  // will need to add the start position to these values once that is known
+  stroke(153);
+  noFill();
+  beginShape();
+ //vertex(0, 0);//1
+  vertex(length1, 0);//2
+  vertex(inner1, 10);//3
+  vertex(length2, 0);//4
+ // vertex(100, 0);//5
+  vertex(100, height1);//6
+  vertex(90, inner2);//7
+  vertex(100, height2);//8
+  //vertex(100, 50);//9
+  vertex(length3, 50);//10
+  vertex(inner3, 40);//11
+  vertex(length4, 50);//12
+  //vertex(0, 50);//13
+  vertex(0, height3);//14
+  vertex(10, inner4);//15
+  vertex(0, height4);//16
+  vertex(length1, 0);
+  endShape();
+}
+
+// EG
+void drawMediumAsteroid() {
+  // will need to add the start position to these values once that is known
+  stroke(153);
+  noFill();
+  beginShape();
+  vertex(length1/2, 0);//2
+  vertex(inner1/2, 5);//3
+  vertex(length2/2, 0);//4
+  vertex(50, height1/2);//6
+  vertex(45, inner2/2);//7
+  vertex(50, height2/2);//8
+  vertex(length3/2, 25);//10
+  vertex(inner3/2, 20);//11
+  vertex(length4/2, 25);//12
+  vertex(0, height3/2);//14
+  vertex(5, inner4/2);//15
+  vertex(0, height4/2);//16
+  vertex(length1/2, 0);
+  endShape();
+}
+
+// EG
+void drawSmallAsteroid() {
+  // will need to add the start position to these values once that is known
+  stroke(153);
+  noFill();
+  beginShape();
+  vertex(length1/4, 0);//2
+  vertex(inner1/4, 2.5);//3
+  vertex(length2/4, 0);//4
+  vertex(25, height1/4);//6
+  vertex(22.5, inner2/4);//7
+  vertex(25, height2/4);//8
+  vertex(length3/4, 12.5);//10
+  vertex(inner3/4, 10);//11
+  vertex(length4/4, 12.5);//12
+  vertex(0, height3/4);//14
+  vertex(2.5, inner4/4);//15
+  vertex(0, height4/4);//16
+  vertex(length1/4, 0);
+  endShape();
+}
+        
+  
+  
