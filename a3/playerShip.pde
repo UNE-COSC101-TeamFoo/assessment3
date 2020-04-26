@@ -6,7 +6,7 @@ class playerShip {
   PVector acceleration;
   float maxSpeed = 4;
   float angle = 0;
-  float spinSpeed = 0.1; // rate of rotation
+  float spinSpeed = 0.085; // rate of rotation
   float accelSpeed = 0.1; // rate of acceleration
   
   
@@ -31,7 +31,7 @@ class playerShip {
     //Move Ship
     translate(location.x, location.y);
     //Rotate Ship
-    rotate(angle + HALF_PI);
+    rotate(angle);
     //Draw Ship
     stroke(225);
     quad(0,-25,-15,25,0,15,15,25); // Hard coded to draw around location
@@ -56,7 +56,7 @@ class playerShip {
   
   void accel() {
     // Angular Acceleration
-    acceleration = new PVector(accelSpeed * cos(angle), accelSpeed * sin(angle)); 
+    acceleration = new PVector(accelSpeed * cos(angle-(PI/2)), accelSpeed * sin(angle-(PI/2))); 
   }
   
   // Function to stop acceleration

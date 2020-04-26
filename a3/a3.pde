@@ -68,11 +68,16 @@ void draw(){
 
   AlienShip(); // load AlienShip
   Projectile();
-  explosion(300,300);
+  //explosion(300,300);
   moveShip();
   // Update Player location and draw
   player.update();
   player.render();
+  
+  
+  if(mousePressed) {
+    explosion(mouseX,mouseY);
+  }
  
  
  
@@ -89,6 +94,7 @@ void draw(){
   //drawAstroids();
   // draw score
 }
+
 
 void keyPressed() {
   if (key == CODED) {
@@ -224,17 +230,15 @@ void explosion(int originX, int originY) {
   /* Below is a two loop structure - this is necessary to draw each particle and 
     to make sure each particle is drawn 10 times with reducing opacity */
   for (int j = 0; j < explosionLoc.length; j++) {
+    //background(0);
     fill(160, explosionOpacity);
     explosionOpacity -= 25;
+    
     
     // This is the loop to draw each particle, and increment the particle's
     // PVector x and y coords so that it expands
     for (int k = 0; k < explosionLoc.length; k++) {
       rect(explosionLoc[k].x, explosionLoc[k].y, 5, 5);
-      
-      // Conditional increment depending on relative pos to origin
-      // AKA expanding
-      
       if (explosionLoc[k].x < originX) {
         explosionLoc[k].x -= 5;
       }
@@ -247,6 +251,7 @@ void explosion(int originX, int originY) {
       else if (explosionLoc[k].y > originY) {
         explosionLoc[k].y += 5;
       }
+      
     }
   }
 }
