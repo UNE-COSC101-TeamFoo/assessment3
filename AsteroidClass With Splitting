@@ -184,7 +184,7 @@ void splitAsteroid(int currentSize, float xposTemp, float yposTemp) {
         
   //add two smaller asteroids to array
   if (currentSize == 1) {
-    return; // do not split smaller asteroid
+    // do nothing, can't split the smallest size
   }
   
   if (currentSize == 2) {
