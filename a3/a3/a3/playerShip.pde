@@ -1,4 +1,5 @@
 class playerShip {
+
   PVector location;
   PVector velocity;
   PVector acceleration;
@@ -6,20 +7,14 @@ class playerShip {
   float angle = 0;
   float spinSpeed = 0.085; // rate of rotation
   float accelSpeed = 0.1; // rate of acceleration
-  //--------------
-  //BN - additions added for projectiles
-  PVector position;
-  PVector rotation;
-  float r = 15;
+
   //for Collision Detection
   float w,h;
-  //--------------  
+  
   playerShip() {
     location = new PVector(width/2,height/2); // Middle point
     velocity = new PVector(0,0);
     acceleration = new PVector(0,0);
-    //BN - additions added for projectiles  
-    rotation = new PVector(0,1);
     //For Collision detection
     w = 10;
     h = 10;
@@ -31,7 +26,7 @@ class playerShip {
     location.add(velocity); 
     wrap();
   } 
-  void render() {
+  void render() {    
     pushMatrix();
     //Move Ship
     translate(location.x, location.y);
@@ -68,5 +63,5 @@ class playerShip {
   }
   void rotateLeft() {
     angle -= spinSpeed;
-  } 
+  }
 }
