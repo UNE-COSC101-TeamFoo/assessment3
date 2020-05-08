@@ -1,12 +1,15 @@
+// Created by CS on 29/03/20
+// Function to animate and draw the explosions
+// Only parameters needed are the origin x and y location of the explosion
 class explosion {
   
   int explosionOpacity;
   PVector explosionLoc[];
   int currentCycle = 0;
   int explosionLimit = 11;
-  int originX,originY;
+  float originX,originY;
   
-  explosion(int a, int b) {
+  explosion(float a, float b) {
     originX = a;
     originY = b;
   

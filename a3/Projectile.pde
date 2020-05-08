@@ -8,11 +8,13 @@ class Bullet {
   float x, y; // starting location
   float w, h; //dimensions for Col.Dect.
   float bulletSpeed = 7;
+  String originType;
+  float bulletRadius = 5;
  
   Bullet(PVector originLoc, String originType) {
     //for collision detection (Col.Dect.)
-    w = 100;
-    h = 100;
+    this.originType = originType;
+
      
     // Starting location for Bullet - AlienShip
     // or playerShip location attributes passed through
@@ -52,6 +54,6 @@ class Bullet {
   }
   
   void display(){
-    ellipse(location.x,location.y,10,10);
+    ellipse(location.x,location.y,bulletRadius,bulletRadius);
   }
 }

@@ -32,16 +32,28 @@ class Asteroid {
   //-------------
   
   // Contructor
-  Asteroid(float xTemp, float yTemp, float speedTemp, int xDirectionTemp, int yDirectionTemp, int sizeTemp) {
-    x = xTemp;
-    y = yTemp;
-    
+  Asteroid(float x, float y, float speed, int size) {
+    this.x = x;
+    this.y = y;
     location = new PVector(x,y);
     
-    speed = speedTemp;
-    xDirection = xDirectionTemp;
-    yDirection = yDirectionTemp;
-    size = sizeTemp;
+    this.speed = speed;
+    this.size = size;
+    
+    // set a random direction for each asteroid generated
+    if(random (100) > 50){
+       xDirection = 1; 
+    }
+    else {
+      xDirection = -1;
+    }
+    
+    if(random(100) > 50){
+       yDirection = 1;
+    }
+    else {
+      yDirection = -1;
+    }
   }
   
   void update() { 
@@ -177,24 +189,6 @@ class Asteroid {
   void splitAsteroid(int currentSize, float xposTemp, float yposTemp) {
     // delete asteroid from array
     calculateScore(currentSize, "asteroid");
-    
-    int xDirection;
-    int yDirection;
-   
-   // set a random direction for each asteroid generated
-    if(random (100) > 50){
-       xDirection = 1; 
-    }
-    else {
-      xDirection = -1;
-    }
-    
-    if(random(100) > 50){
-       yDirection = 1;
-    }
-    else {
-      yDirection = -1;
-        }
           
     //add two smaller asteroids to array
     if (currentSize == 1) {
@@ -205,7 +199,7 @@ class Asteroid {
       for (int i = 0; i < 2; i++) {
         float xpos = xposTemp + random (-10, 10);
         float ypos = yposTemp + random (-10, 10);
-        asteroids.add(new Asteroid(xpos, ypos, random(1, 3), xDirection, yDirection, 1));  
+        asteroids.add(new Asteroid(xpos, ypos, random(1, 3), 1));  
         xpos = xpos + 20;
         ypos = ypos + 20;
       }
@@ -215,7 +209,7 @@ class Asteroid {
       for (int i = 0; i < 2; i++) {
         float xpos = xposTemp + random (0, 20);
         float ypos = yposTemp + random (0, 20);
-        asteroids.add(new Asteroid(xpos, ypos, random(1, 3), xDirection, yDirection, 2));  
+        asteroids.add(new Asteroid(xpos, ypos, random(1, 3), 2));  
         xpos = xpos + 20;
         ypos = ypos + 20;
       }

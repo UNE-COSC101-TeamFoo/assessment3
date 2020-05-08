@@ -18,7 +18,7 @@ Bullet Bullet; // BN
 AlienShip AlienShip; // BN
 
 ArrayList <explosion> explosions = new ArrayList<explosion>();
-ArrayList <Bullet> bullets; // BN
+ArrayList <Bullet> bullets = new ArrayList<Bullet>(); // BN
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>(); // EG
 
 
@@ -40,39 +40,16 @@ void setup() {
 
   //playership class - CS
   player = new playerShip(); //Player class file: playerShip.pde - located in root folder of this main file  
-
-  // Projectile array - BN
-  bullets = new ArrayList<Bullet>();
-  //Bullet = new Bullet();  
-  
   //AlienShip - BN
   AlienShip = new AlienShip();
-  
   
   //Asteroids - EG
   int openArrayPos = asteroids.size();
   if (openArrayPos <= 0) {
     for (int i = 0; i < asteroidCount; i++) {
-        int xDirection;
-        int yDirection;
-       
-       // set a random direction for each asteroid generated
-        if(random (100) > 50){
-           xDirection = 1; 
-        }
-        else {
-          xDirection = -1;
-        }
-        
-        if(random(100) > 50){
-           yDirection = 1;
-        }
-        else {
-          yDirection = -1;
-        }
-        
+      
         //asteroids[index++] = new Asteroid(random(75, 725), random(75, 725), random(3, 5), xDirection, yDirection); //x axis, y axis, speed, xdirection, ydirection
-        asteroids.add(new Asteroid(random(75, 725), random(75, 725), random(1, 3), xDirection, yDirection, round(random(3))));
+        asteroids.add(new Asteroid(random(75, 725), random(75, 725), random(1, 3), round(random(3))));
     }
   }
   
@@ -92,11 +69,12 @@ void setup() {
 void draw(){
   
   background(0);
-  
-  //explosion(300,300);
-    
-  // should be loaded upon each new level? - BN - 26/04/2020
+
   AlienShip.display();
+  if(second() % 20 == 0 && !AlienShip.active) {
+    AlienShip.active = true; 
+  }
+  println(AlienShip.active);
   AlienShip.AlienShipApproach(); // - BN
   
   // Update Player location and draw - CS
@@ -114,11 +92,11 @@ void draw(){
     Bullet bullet = bullets.get(i);
     bullet.update();
     bullet.display();
+    if (collisionDetection(bullet)) {
+      bullets.remove(bullet);
+    }
   }
 
-  //drawSmallAsteroid();// - EG
-  //drawMediumAsteroid();// - EG
-  //drawLargeAsteroid();// - EG
   for (int i = 0; i < asteroids.size(); i++) {
     asteroidArrayPosition = 0; // need to reset or it keeps incrementing
     Asteroid roids = asteroids.get(i);
@@ -149,23 +127,6 @@ void draw(){
   fill(255, 0, 0, 100);
   rect(0, 0, width, height);
   }
-
-  /*Projectile and AlienShip
-  if(collisionDetection(Bullet, AlienShip)){
-  fill(255, 0, 0, 100);
-  rect(0, 0, width, height);
-  }
-  */
-
-  //PlayerShip and Asteroid
-  //if(collisionDetection(player, Asteroid)){
-  //fill(255, 0, 0, 100);
-  //rect(0, 0, width, height);
-  //}  
-  
-  // report if game over or won
-  
-  // draw score
       
 }
 
@@ -209,16 +170,7 @@ void keyReleased() {
   } 
 }
 
-void mousePressed() {
-    explosions.add(new explosion(mouseX,mouseY));
-  }
 
-//void addScore(){
-// score++; 
-//}
-//void removeLife(){
-// lives--; 
-//}
 
 void moveShip(){
   if(sUP){
@@ -233,9 +185,7 @@ void moveShip(){
   }
 }
 
-// Created by CS on 29/03/20
-// Function to animate and draw the explosions
-// Only parameters needed are the origin x and y location of the explosion
+
 
 
 
@@ -243,17 +193,22 @@ void moveShip(){
 void calculateScore (int currentSize, String type) {
   if (type == "asteroid") {
     if (currentSize == 1) {
-      score = score + 100;
+      score = score + 500;
     }
     if (currentSize == 2) {
-      score = score + 200;
+      score = score + 250;
     }
     if (currentSize == 3) {
-      score = score + 300;
+      score = score + 100;
     }
     
     System.out.println(score);
   }
+}
+
+void calculateScore(AlienShip alien) {
+  score += 1000;
+  alien.die();
 }
 
 void displayScore() {
@@ -307,8 +262,32 @@ boolean collisionDetection(playerShip r1, Asteroid r2) {
  //}
  return false;
 }
-
-//Projectile and AlienShip
+boolean collisionDetection(Bullet bullet) {
+  //For Collision Detection
+    // Bullet from AlienShip to Player
+    if(bullet.originType == "ALIEN"){
+      float d = bullet.location.dist(player.location);
+      if(d<10){
+        fill(255, 0, 0, 100);
+        rect(0, 0, width, height);   
+        return true;
+      }
+    }
+    // Bullet from Player to AlienShip
+    else if(bullet.originType == "PLAYER"){
+      float d = bullet.location.dist(AlienShip.location);
+      if(d <= AlienShip.BigRadius+bullet.bulletRadius - 10){
+        fill(255, 0, 0, 100);
+        rect(0, 0, width, height);  
+        explosions.add(new explosion(AlienShip.location.x, AlienShip.location.y));
+        calculateScore(AlienShip);
+        return true;
+      }
+      
+    }
+    return false;
+}
+/*Projectile and AlienShip
 boolean collisionDetection(Bullet r1, AlienShip r2) {
  float distanceX = (r1.location.x + r1.w) - (r2.location.x + r2.w);
  float distanceY = (r1.location.y + r1.h) - (r2.location.y + r2.h);
@@ -321,5 +300,6 @@ boolean collisionDetection(Bullet r1, AlienShip r2) {
  }
  return false;
 }
+*/
 
 //EOF
