@@ -64,7 +64,7 @@ class Asteroid {
         
     if (selfDestruct < millis())
     {
-      splitAsteroid(size, x, y);
+    //  splitAsteroid(size, x, y);
     }
     
     x = x + (speed * xDirection);
@@ -215,6 +215,6 @@ class Asteroid {
       }
     }
     
-    asteroids.remove(asteroidArrayPosition);
+    //asteroids.remove(asteroidArrayPosition);
   }
 }

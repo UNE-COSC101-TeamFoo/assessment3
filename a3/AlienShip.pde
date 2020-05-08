@@ -33,7 +33,8 @@ class AlienShip {
   
   void display() {
     // Part A of Ship
-    fill(153); // fill colour in object
+    stroke(255);
+    fill(0); // fill colour in object
     ellipse(location.x,location.y,BigRadius,BigRadius); // object
     
     

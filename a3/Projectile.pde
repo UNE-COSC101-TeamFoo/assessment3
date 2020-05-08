@@ -54,6 +54,7 @@ class Bullet {
   }
   
   void display(){
+    fill(0,255,0,255);
     ellipse(location.x,location.y,bulletRadius,bulletRadius);
   }
 }

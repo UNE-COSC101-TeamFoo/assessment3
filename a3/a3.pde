@@ -74,7 +74,6 @@ void draw(){
   if(second() % 20 == 0 && !AlienShip.active) {
     AlienShip.active = true; 
   }
-  println(AlienShip.active);
   AlienShip.AlienShipApproach(); // - BN
   
   // Update Player location and draw - CS
@@ -88,8 +87,12 @@ void draw(){
   
 
   //Projectiles - BN
-  for (int i = bullets.size()-1; i >= 0; i--) {
-    Bullet bullet = bullets.get(i);
+  for (int k = 0; k < bullets.size(); k++) {
+    Bullet bullet = bullets.get(k);
+    //wrap
+    if(bullet.location.x<=0 ||bullet.location.x>= width || bullet.location.y <= 0 || bullet.location.y >= height) {
+      bullets.remove(bullet);
+    }
     bullet.update();
     bullet.display();
     if (collisionDetection(bullet)) {
@@ -282,10 +285,63 @@ boolean collisionDetection(Bullet bullet) {
         explosions.add(new explosion(AlienShip.location.x, AlienShip.location.y));
         calculateScore(AlienShip);
         return true;
-      }
+      } 
       
-    }
-    return false;
+      for (int j = 0; j<asteroids.size(); j++) {
+        Asteroid roid = asteroids.get(j);
+        float astX = roid.x;
+        float astY = roid.y;
+        float astMaxWidth;
+        float astMaxHeight;
+        
+        if(roid.size == 1) {
+
+          astMaxWidth = 12.5;
+          astMaxHeight = 25;
+        } else if (roid.size == 2) {
+          astMaxWidth = 25;
+          astMaxHeight = 50;
+        } else {
+          astMaxWidth = 50;
+          astMaxHeight = 100;
+        }
+        // temporary variables to set edges for testing
+        float testX = bullet.location.x;
+        float testY = bullet.location.y;
+        
+        //Test LEFT side
+        if (testX < astX) {
+          testX = astX;
+        }
+        //Test RIGHT side
+        else if (testX > astX + astMaxWidth) {
+          testX = astY + astMaxWidth; 
+        }
+        //Test TOP side
+        if (testY < astY){
+          testY = astY; 
+        }
+        //Test BOTTOM side
+        else if (testY > astY + astMaxHeight){
+          testY = astY + astMaxHeight; 
+        }
+      
+        // get distance from closest edges
+        float distX = bullet.location.x- testX;
+        float distY = bullet.location.y- testY;
+        float distance = sqrt((distX*distX) + (distY*distY));
+      
+        // if the distance is less than the radius, collision!
+        if (distance <= bullet.bulletRadius) {
+          explosions.add(new explosion(astX,astY));
+          roid.splitAsteroid(roid.size,astX,astY);
+          asteroids.remove(roid);
+          return true;
+        }
+        j++;
+        }
+      }
+      return false;
 }
 /*Projectile and AlienShip
 boolean collisionDetection(Bullet r1, AlienShip r2) {
