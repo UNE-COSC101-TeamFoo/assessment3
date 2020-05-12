@@ -298,7 +298,7 @@ void collisionDetection(Asteroid roid, playerShip p1) {
   }
 }
 
-// Collision Detection between Buller and another object
+// Collision Detection between Bullet and another object
 boolean collisionDetection(Bullet bullet) {
   // Bullet from AlienShip to Player
   if (bullet.originType == "ALIEN") {
@@ -332,14 +332,12 @@ boolean collisionDetection(Bullet bullet) {
   return false;
 }
 
-// Stage/Level rest after clearing screen
+// Stage/Level reset after clearing screen
 void checkLevel () {
   int openArrayPos = asteroids.size();
 
   if (openArrayPos == 0) {
     level++;
-    //note:
-    //probably throw a reset of the ship position or a loading screen or both in here?
     player.reset();
     player.active = false;
 
