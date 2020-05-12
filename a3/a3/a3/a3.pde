@@ -160,7 +160,6 @@ void keyPressed() {
     }
   }
   if (keyCode == 32) { // spacebar
-    // Projectiles/Bullets - BN
     // Pass param of Player to identify bullet from PlayerShip
     bullets.add( new Bullet(player.location, "PLAYER"));
     // Play sound of bullet when released

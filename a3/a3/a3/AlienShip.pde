@@ -54,7 +54,9 @@ class AlienShip {
       onScreen = (location.x >= 0 && location.x <= width && location.y >= 0 && location.y <= width);       
       // Every two seconds a bullet is shot if the AlienShip is onScreen
       if (frameCount % 120 == 0 && onScreen) {
-        bullets.add( new Bullet(AlienShip.location, "ALIEN")); 
+        // Pass param of Alien to identify bullet from AlienShip
+        bullets.add( new Bullet(AlienShip.location, "ALIEN"));
+        // Play sound of bullet when released 
         projectileSound.play();
         projectileSound.rewind();        
       } 
