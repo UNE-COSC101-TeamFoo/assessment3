@@ -4,7 +4,9 @@
 * Last modified: 12/05/2020
 * Group: <Benjamin Nolan,Elsa Gaskell,Callum Sandercock>
 * Date Commenced: 21/03/2020
+* Date Completed MVP + Features: 12/05/2020
 * Course: COSC101 - Software Development Studio 1
+* ...
 * Desc: Asteroids is a Single player two dimensional shooter game where a player is required to shoot
 * AlienShips and Asteroids and not be hit by Asteroids, AlienShips and Projectiles.
 * Player scores points when they shoot Asteroids and AlienShips.
@@ -13,7 +15,14 @@
 * Usage: Make sure to run in the processing environment and press play etc...
 * Notes: If any third party items are use they need to be credited (don't use anything with copyright - unless you have permission)
 * ...
-* Please install minim before running (for sound library).
+* IMPORTANT! Please install minim before running (for sound library).
+* ...
+* ...
+* PLAYER INSTRUCTIONS!
+* Please use Spacebar to shoot from PlayerShip.
+* Use Up, Left and Right arrow keys to move PlayerShip
+* ...
+* ...
 **************************************************************/
 
 import ddf.minim.*;                // Import Minim sound library
@@ -34,10 +43,10 @@ ArrayList <Asteroid> asteroids = new ArrayList<Asteroid>(); // EG
 int level = 1; // the difficulty level, default is 0
 int asteroidCount = 5*level;  // number of asteroids to be generated
 int asteroidArrayPosition = 0;
-int score = 0;
+int score = 0; // starting score
 boolean sUP=false, sDOWN=false, sRIGHT=false, sLEFT=false;
 boolean alive=true;
-float bgColor = 0;
+float bgColor = 0; // background colour black
 
 PImage foo; //for logo
 
@@ -49,7 +58,7 @@ void setup() {
   // playerShip class - CS
   player = new playerShip(); 
   
-  //AlienShip  class - BN
+  //AlienShip class - BN
   AlienShip = new AlienShip();
   
   //Asteroids - EG
@@ -75,51 +84,51 @@ void draw(){
      
   background(bgColor);
 
-  //UnComment if you're feeling lucky!
+  //UnComment if you're feeling lucky! :)
   //image(foo,700,25,100,100); //for logo
 
-
-  AlienShip.display();
+  // AlienShip - BN
+  AlienShip.display(); // load AlienShip object
+  // Frequency of when AlienShip appears 
   if (second() % 20 == 0 && !AlienShip.active) {
     AlienShip.active = true;
   }
-  AlienShip.AlienShipApproach(); // - BN
+  AlienShip.AlienShipApproach(); // Movement of AlienShip
 
-  // Update Player location and draw - CS
+  // Player Ship - CS
   moveShip();
-  player.update();// - CS
-  player.render();// - CS
-  player.displayLives();
-  collisionDetection(player, AlienShip);
+  player.update();
+  player.render();
+  player.displayLives(); // Show lives on screen
+  collisionDetection(player, AlienShip); // Collision Detection between PlayerShip and AlienShip
 
-  displayScore();
+  displayScore(); // Display Score
 
+  // Asteroids - EG
   for (int i = 0; i < asteroids.size(); i++) {
     asteroidArrayPosition = 0; // need to reset or it keeps incrementing
     Asteroid roid = asteroids.get(i);
     roid.update();
     roid.display();
-    collisionDetection(roid, player);
+    collisionDetection(roid, player);// Collision Detection between Asteroid and PlayerShip
     asteroidArrayPosition++;
   } 
 
-
-  //Projectiles - BN
+  // Projectiles/Bullets - BN
   for (int k = 0; k < bullets.size(); k++) {
     Bullet bullet = bullets.get(k);
-    //wrap
     if (bullet.location.x<=0 ||bullet.location.x>= width || bullet.location.y <= 0 || bullet.location.y >= height) {
       bullets.remove(bullet);
     }
     bullet.update();
     bullet.display();
+    // When bullet hits an object, needs to be removed, otherwise goes through.
     if (collisionDetection(bullet)) {
       bullets.remove(k);
     }
   }
 
-
-
+  // Explosions - CS
   for (int p = 0; p < explosions.size(); p++) {
     if (explosions.size()>0) {
       explosion explode = explosions.get(p);
@@ -133,7 +142,6 @@ void draw(){
       }
     }
   }
-
 }
 
 void keyPressed() {
@@ -151,13 +159,14 @@ void keyPressed() {
       sLEFT=true;
     }
   }
-  if (keyCode == 32) {
-    // Projectiles - BN
+  if (keyCode == 32) { // spacebar
+    // Projectiles/Bullets - BN
+    // Pass param of Player to identify bullet from PlayerShip
     bullets.add( new Bullet(player.location, "PLAYER"));
+    // Play sound of bullet when released
     projectileSound.play();
     projectileSound.rewind();
   }
-  
 }
 
 void keyReleased() {
@@ -180,17 +189,18 @@ void keyReleased() {
 
 void moveShip(){
   if(sUP){
-    player.accel();// - CS
+    player.accel();
   }
-  if(sDOWN){}
+  if(sDOWN){} // Down not used
   if(sRIGHT){
-    player.rotateRight();// - CS
+    player.rotateRight();
   }
   if(sLEFT){
-    player.rotateLeft();// - CS
+    player.rotateLeft();
   }
 }
 
+// Calculate scoring for Asteroids hit by PlayerShip
 void calculateScore (Asteroid roid) {
   if (roid.size == 1) {
     score = score + 500;
@@ -203,20 +213,20 @@ void calculateScore (Asteroid roid) {
   }
 }
 
+// Calculate scoring for AlienShip hit by PlayerShip
 void calculateScore(AlienShip alien) {
   score += 1000;
   alien.die();
 }
 
+// Display Score
 void displayScore() {
   textAlign(LEFT);
   textSize(20);
   text("Score: " + nf(score, 7), 50, 50);
 }
 
-
-
-
+// Collision Detection between Asteroid and PlayerShip
 boolean circleToAsteroid(Asteroid roid, PVector circleLoc, int radius) {
   float astX = roid.x;
   float astY = roid.y;
@@ -268,12 +278,7 @@ boolean circleToAsteroid(Asteroid roid, PVector circleLoc, int radius) {
   }
 }
 
-
-
-
-//Collision Detection - BN
-
-//PlayerShip and AlienShip
+// Collision Detection between PlayerShip and AlienShip
 void collisionDetection(playerShip r1, AlienShip r2) {
   float d = r2.location.dist(r1.location);
   if (d <= r1.radius + r2.BigRadius) {
@@ -282,7 +287,7 @@ void collisionDetection(playerShip r1, AlienShip r2) {
   }
 }
 
-
+// Collision Detection between Asteroid and PlayerShip
 void collisionDetection(Asteroid roid, playerShip p1) {
   if (circleToAsteroid(roid, p1.location, p1.radius) && player.active) {
     explosions.add(new explosion(roid.x, roid.y));
@@ -294,9 +299,8 @@ void collisionDetection(Asteroid roid, playerShip p1) {
   }
 }
 
-
+// Collision Detection between Buller and another object
 boolean collisionDetection(Bullet bullet) {
-  //For Collision Detection
   // Bullet from AlienShip to Player
   if (bullet.originType == "ALIEN") {
     float d = bullet.location.dist(player.location);
@@ -314,7 +318,7 @@ boolean collisionDetection(Bullet bullet) {
       calculateScore(AlienShip);
       return true;
     }
-
+    // Bullet from Player to Asteroid
     for (int m = 0; m < asteroids.size(); m++) {
       Asteroid roid = asteroids.get(m);
       if (circleToAsteroid(roid, bullet.location, bullet.radius)) {
@@ -329,7 +333,7 @@ boolean collisionDetection(Bullet bullet) {
   return false;
 }
 
-
+// Stage/Level rest after clearing screen
 void checkLevel () {
   int openArrayPos = asteroids.size();
 

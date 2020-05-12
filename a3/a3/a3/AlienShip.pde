@@ -1,14 +1,17 @@
+// AlienShip class
+// Works of both BN and CS
+// Commentary by BN
 class AlienShip {
-  //AlienShip global vars - BN  
   float AlienShipSpeed = 2; // AlienShip Speed
   PVector velocity;
   PVector location;
   PVector AShip;
-  float xRandom, yRandom;
+  float xRandom, yRandom; // AlienShip Random positioning 
   float BigRadius = 50;
   float SmallRadius = 25;
   boolean active = false;
   
+   // Constructor
   AlienShip() {
     PVector start = new PVector();
     start = randomStart();
@@ -16,6 +19,7 @@ class AlienShip {
     velocity = new PVector(1,1); 
   }
   
+   // AlienShip Movement Calculations
   void move() {
     if(location.x > (width + 100)|| location.x < -100){
         velocity.x *= -1;
@@ -27,19 +31,21 @@ class AlienShip {
     location.y += AlienShipSpeed * velocity.y;    
   }
   
+   // AlienShip Object
   void display() {
     // Part A of Ship
     stroke(255);
     fill(0); // fill colour in object    
     ellipse(location.x,location.y,BigRadius,BigRadius); // object
-    
+    //  
     // Part B of Ship
     //smaller ellipse on Alien Ship (centred circle)
     fill(153);
     ellipse(location.x,location.y,SmallRadius,SmallRadius); // object
+    //
   }
-    
-  
+
+  // AlienShip Movement  
   void AlienShipApproach(){
     if (active) {
       AlienShip.move();
@@ -55,6 +61,7 @@ class AlienShip {
     }
   } 
 
+  // AlienShip Random positioning calculations
   PVector randomStart() {
     int randCount = int(random(1,4));
     if(randCount <=1) {
@@ -75,6 +82,7 @@ class AlienShip {
     return start;
   }
   
+  // AlienShip exploding by bullet or colliding with PlayerShip calls this die function
   void die() {
     PVector restart = new PVector();
     restart = randomStart();
