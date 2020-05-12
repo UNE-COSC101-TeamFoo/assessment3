@@ -1,17 +1,26 @@
 
 /**************************************************************
 * File: a3.pde
-* Last modified: 07/05/2020 - BN
+* Last modified: 12/05/2020
 * Group: <Benjamin Nolan,Elsa Gaskell,Callum Sandercock>
 * Date Commenced: 21/03/2020
 * Course: COSC101 - Software Development Studio 1
-* Desc: Astroids is a ...
+* Desc: Asteroids is a Single player two dimensional shooter game where a player is required to shoot
+* AlienShips and Asteroids and not be hit by Asteroids, AlienShips and Projectiles.
+* Player scores points when they shoot Asteroids and AlienShips.
+* The player has three lives, and loses a life everytime they collide with another object or are shot at.
 * ...
 * Usage: Make sure to run in the processing environment and press play etc...
 * Notes: If any third party items are use they need to be credited (don't use anything with copyright - unless you have permission)
 * ...
+* Please install minim before running (for sound library).
 **************************************************************/
 
+import ddf.minim.*;                // Import Minim sound library
+Minim minim;                       // Minium object to load music
+AudioPlayer backgroundSound;          // Object to play background music
+AudioPlayer projectileSound;       // Object to play projectile sound
+AudioPlayer explosionSound;        // Object to play explosion sound
 
 playerShip player; // CS
 Asteroid asteroid; // EG
@@ -19,95 +28,61 @@ Bullet Bullet; // BN
 AlienShip AlienShip; // BN
 
 ArrayList <explosion> explosions = new ArrayList<explosion>(); // CS
-ArrayList <Bullet> bullets; // BN
+ArrayList <Bullet> bullets = new ArrayList<Bullet>(); // BN
 ArrayList <Asteroid> asteroids = new ArrayList<Asteroid>(); // EG
 
-// Asteroids global vars - EG
-//variables to store the numbers required to generate the asteroid shape
-//note: once we generate multiple asteroids at the same time, will need a permanent way of storing the shape generated for each asteroid.
-float length1 = random (5 , 45);
-float length2 = random (50 , 95);
-float length3 = random (50 , 95);
-float length4 = random (5 , 45);
-float height1 = random (5 , 20);
-float height2 = random  (30 , 45);
-float height3 = random (30 , 45);
-float height4 = random (5 , 20);
-float inner1 = random (30, 50);
-float inner2 = random (15, 20);
-float inner3 = random (30, 50);
-float inner4 = random (15, 20);
-
-
-int level = 1; // the difficulty level
-int asteroidCount = 10*level;  // number of asteroids to be generated
+int level = 1; // the difficulty level, default is 0
+int asteroidCount = 5*level;  // number of asteroids to be generated
 int asteroidArrayPosition = 0;
 int score = 0;
-float radians=radians(270); //if your ship is facing up (like in atari game)
-boolean sUP=false,sDOWN=false,sRIGHT=false,sLEFT=false;
+boolean sUP=false, sDOWN=false, sRIGHT=false, sLEFT=false;
 boolean alive=true;
 float bgColor = 0;
+
+PImage foo; //for logo
 
 void setup() {
   
   size(800,800);
   background(bgColor);
   
-  //playership class - CS
-  player = new playerShip(); //Player class file: playerShip.pde - located in root folder of this main file  
-
-  // Projectile array - BN
-  bullets = new ArrayList<Bullet>();
+  // playerShip class - CS
+  player = new playerShip(); 
   
-  //AlienShip - BN
+  //AlienShip  class - BN
   AlienShip = new AlienShip();
   
   //Asteroids - EG
   int openArrayPos = asteroids.size();
   if (openArrayPos <= 0) {
-    for (int i = 0; i < asteroidCount; i++) {
-        int xDirection;
-        int yDirection;
-       
-       // set a random direction for each asteroid generated
-        if(random (100) > 50){
-           xDirection = 1; 
-        }
-        else {
-          xDirection = -1;
-        }
-        
-        if(random(100) > 50){
-           yDirection = 1;
-        }
-        else {
-          yDirection = -1;
-        }
-        
-        //asteroids[index++] = new Asteroid(random(75, 725), random(75, 725), random(3, 5), xDirection, yDirection); //x axis, y axis, speed, xdirection, ydirection
-        asteroids.add(new Asteroid(random(75, 725), random(75, 725), random(1, 3), xDirection, yDirection, round(random(3))));
+    for (int i = 0; i < asteroidCount; i++) {      
+        asteroids.add(new Asteroid(random(75, 725), random(75, 725), random(1, 3), round(random(3))));
     }
   }
-   
+
+  // sound effects
+  minim = new Minim(this);
+  projectileSound = minim.loadFile("/Audio/projectileSound.wav");
+  explosionSound = minim.loadFile("/Audio/explosionSound.wav");
+  backgroundSound = minim.loadFile("/Audio/CreepySpace.mp3");
+  backgroundSound.loop();
+
+  foo = loadImage("foo_was_here.jpg"); //for logo
+
 }
 
-// do we need this below? BN - 02/05/2020
-/**************************************************************
-* Function: myFunction()
-* Parameters: None ( could be integer(x), integer(y) or String(myStr))
-* Returns: Void ( again this could return a String or integer/float type )
-* Desc: Each funciton should have appropriate documentation. 
-        This is designed to benefit both the marker and your team mates.
-        So it is better to keep it up to date, same with usage in the header comment
-***************************************************************/
-
-
 void draw(){
-  
-  background(0);
-    
-  // should be loaded upon each new level? - BN - 26/04/2020
+     
+  background(bgColor);
+
+  //UnComment if you're feeling lucky!
+  //image(foo,700,25,100,100); //for logo
+
+
   AlienShip.display();
+  if (second() % 20 == 0 && !AlienShip.active) {
+    AlienShip.active = true;
+  }
   AlienShip.AlienShipApproach(); // - BN
 
   // Update Player location and draw - CS
@@ -115,62 +90,50 @@ void draw(){
   player.update();// - CS
   player.render();// - CS
   player.displayLives();
-  
-  displayScore();
+  collisionDetection(player, AlienShip);
 
-  //Projectiles - BN
-  for (int i = bullets.size()-1; i >= 0; i--) {
-    Bullet bullet = bullets.get(i);
-    bullet.update();
-    bullet.display();
-  }
+  displayScore();
 
   for (int i = 0; i < asteroids.size(); i++) {
     asteroidArrayPosition = 0; // need to reset or it keeps incrementing
-    Asteroid roids = asteroids.get(i);
-    roids.update();
-    roids.display();
+    Asteroid roid = asteroids.get(i);
+    roid.update();
+    roid.display();
+    collisionDetection(roid, player);
     asteroidArrayPosition++;
-  }  
+  } 
+
+
+  //Projectiles - BN
+  for (int k = 0; k < bullets.size(); k++) {
+    Bullet bullet = bullets.get(k);
+    //wrap
+    if (bullet.location.x<=0 ||bullet.location.x>= width || bullet.location.y <= 0 || bullet.location.y >= height) {
+      bullets.remove(bullet);
+    }
+    bullet.update();
+    bullet.display();
+    if (collisionDetection(bullet)) {
+      bullets.remove(k);
+    }
+  }
+
+
 
   for (int p = 0; p < explosions.size(); p++) {
-    if(explosions.size()>0) {
+    if (explosions.size()>0) {
       explosion explode = explosions.get(p);
       if (explode.currentCycle >= explode.explosionLimit) {
         explosions.remove(p);
       } else {
         explode.display();
-        if(frameCount%5==0) {
+        if (frameCount%5==0) {
           explode.update();
         }
-        
       }
-    }  
+    }
   }
 
-  //Collision Detection - BN
-  
-  //PlayerShip and AlienShip - works perfectly
-  if(collisionDetection(player, AlienShip)){
-    fill(255, 0, 0, 100);
-    rect(0, 0, width, height);
-  }    
-}
-
-//Collision Detection - BN
-
-//PlayerShip and AlienShip - works perfectly
-boolean collisionDetection(playerShip r1, AlienShip r2){
- float distanceX = (r1.location.x + r1.w) - (r2.location.x + r2.w);
- float distanceY = (r1.location.y + r1.h) - (r2.location.y + r2.h);
- float combinedHalfW = r1.w + r2.w;
- float combinedHalfH = r1.h + r2.h;
- if(abs(distanceX) < combinedHalfW){
-   if(abs(distanceY) < combinedHalfH){
-    return true; 
-   }
- }
- return false;
 }
 
 void keyPressed() {
@@ -191,9 +154,12 @@ void keyPressed() {
   if (keyCode == 32) {
     // Projectiles - BN
     bullets.add( new Bullet(player.location, "PLAYER"));
+    projectileSound.play();
+    projectileSound.rewind();
   }
   
 }
+
 void keyReleased() {
   if (key == CODED) {
     if (keyCode == UP) {
@@ -212,10 +178,6 @@ void keyReleased() {
   } 
 }
 
-void mousePressed() {
-    explosions.add(new explosion(mouseX,mouseY));
-  }
-
 void moveShip(){
   if(sUP){
     player.accel();// - CS
@@ -229,26 +191,162 @@ void moveShip(){
   }
 }
 
-void calculateScore (int currentSize, String type) {
-  if (type == "asteroid") {
-    if (currentSize == 1) {
-      score = score + 100;
-    }
-    if (currentSize == 2) {
-      score = score + 200;
-    }
-    if (currentSize == 3) {
-      score = score + 300;
-    }
-    
-    System.out.println(score);
+void calculateScore (Asteroid roid) {
+  if (roid.size == 1) {
+    score = score + 500;
   }
+  if (roid.size == 2) {
+    score = score + 250;
+  }
+  if (roid.size == 3) {
+    score = score + 100;
+  }
+}
+
+void calculateScore(AlienShip alien) {
+  score += 1000;
+  alien.die();
 }
 
 void displayScore() {
   textAlign(LEFT);
   textSize(20);
-  text("Score: " + nf(score,7),50,50);
+  text("Score: " + nf(score, 7), 50, 50);
 }
 
+
+
+
+boolean circleToAsteroid(Asteroid roid, PVector circleLoc, int radius) {
+  float astX = roid.x;
+  float astY = roid.y;
+  float astMaxWidth;
+  float astMaxHeight;
+
+  if (roid.size == 1) {
+    astMaxWidth = 33.3;
+    astMaxHeight = 16.6;
+  } else if (roid.size == 2) {
+    astMaxWidth = 50;
+    astMaxHeight = 25;
+  } else {
+    astMaxWidth = 100;
+    astMaxHeight = 50;
+  }
+  // temporary variables to set edges for testing
+  float testX = circleLoc.x;
+  float testY = circleLoc.y;
+
+  //Test LEFT side
+  if (testX < astX) {
+    testX = astX;
+  }
+  //Test RIGHT side
+  else if (testX > astX + astMaxWidth) {
+    testX = astX + astMaxWidth;
+  }
+  //Test TOP side
+  if (testY < astY) {
+    testY = astY;
+  }
+  //Test BOTTOM side
+  else if (testY > astY + astMaxHeight) {
+    testY = astY + astMaxHeight;
+  }
+
+  // get distance from closest edges
+  PVector closestEdge = new PVector(testX, testY);
+  float distance = closestEdge.dist(circleLoc);
+  boolean insideTestX = circleLoc.x >= astX && circleLoc.x <= astX + astMaxWidth;
+  boolean insideTestY = circleLoc.y >= astY && circleLoc.y <= astY + astMaxHeight;
+  boolean insideTest = insideTestX && insideTestY;
+  
+  if (distance <= radius || insideTest ) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+
+
+
+//Collision Detection - BN
+
+//PlayerShip and AlienShip
+void collisionDetection(playerShip r1, AlienShip r2) {
+  float d = r2.location.dist(r1.location);
+  if (d <= r1.radius + r2.BigRadius) {
+    explosions.add(new explosion(player.location.x, player.location.y));
+    player.die();
+  }
+}
+
+
+void collisionDetection(Asteroid roid, playerShip p1) {
+  if (circleToAsteroid(roid, p1.location, p1.radius) && player.active) {
+    explosions.add(new explosion(roid.x, roid.y));
+    roid.splitAsteroid();
+    asteroids.remove(roid);
+    checkLevel();
+    p1.die();
+    System.out.println("hit by asteroid");
+  }
+}
+
+
+boolean collisionDetection(Bullet bullet) {
+  //For Collision Detection
+  // Bullet from AlienShip to Player
+  if (bullet.originType == "ALIEN") {
+    float d = bullet.location.dist(player.location);
+    if (d <= player.radius + bullet.radius && player.active) {
+      explosions.add(new explosion(player.location.x, player.location.y));
+      player.die();
+      return true;
+    }
+  }
+  // Bullet from Player to AlienShip
+  else if (bullet.originType == "PLAYER") {
+    float d = bullet.location.dist(AlienShip.location);
+    if (d <= AlienShip.BigRadius + bullet.radius) {
+      explosions.add(new explosion(AlienShip.location.x, AlienShip.location.y));
+      calculateScore(AlienShip);
+      return true;
+    }
+
+    for (int m = 0; m < asteroids.size(); m++) {
+      Asteroid roid = asteroids.get(m);
+      if (circleToAsteroid(roid, bullet.location, bullet.radius)) {
+        explosions.add(new explosion(roid.x, roid.y));
+        roid.splitAsteroid();
+        asteroids.remove(roid);
+        checkLevel();
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+
+void checkLevel () {
+  int openArrayPos = asteroids.size();
+
+  if (openArrayPos == 0) {
+    level++;
+    //note:
+    //probably throw a reset of the ship position or a loading screen or both in here?
+    player.reset();
+    player.active = false;
+
+    if (openArrayPos <= 0) {
+      for (int i = 0; i < asteroidCount; i++) {
+
+        //asteroids[index++] = new Asteroid(random(75, 725), random(75, 725), random(3, 5), xDirection, yDirection); //x axis, y axis, speed, xdirection, ydirection
+        asteroids.add(new Asteroid(random(75, 725), random(75, 725), 1 + level*0.1, round(random(1,3))));
+      }
+    }
+  }
+}
 //EOF
