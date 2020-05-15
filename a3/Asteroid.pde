@@ -31,55 +31,31 @@ class Asteroid {
     this.speed = speed;
     this.size = size;
 
-    if (size == 1) { // small asteroid
-      // random numbers indicating the location of the indents on the x axis  
-      lengthMeasurement = new float[] {random (1.5, 15), random (16.5, 31.5), 
-        random (16.5, 31.5), random (1.5, 15)};
+    // random numbers indicating the location of the indents on the x axis
+    lengthMeasurement = new float[] {random (5, 45), random (50, 95), 
+      random (50, 95), random (5, 45)};
+      
+    // random numbers indicating the location of the indents on the y axis
+    heightMeasurement = new float[] {random (5, 20), random (30, 45), 
+      random (30, 45), random (5, 20)};
+      
+    // random numbers indicating the angle the indents will form 
+    innerMeasurement = new float[] {random (30, 50), random (15, 20), 
+      random (30, 50), random (15, 20)};
+      
+    // standard measurements for the specific size asteroid
+    standardMeasurement = new float[] {10, 100, 90, 50, 40};
 
-      // random numbers indicating the location of the indents on the y axis
-      heightMeasurement = new float[] {random (1.5, 6.5), random (10, 15), 
-        random (10, 15), random (1.5, 6.5)};
-
-      // random numbers indicating the angle the indents will form
-      innerMeasurement = new float[] {random (10, 16.5), random (5, 6.5), 
-        random (10, 16.5), random (5, 6.5)};
-
-      // standard measurements for the specific size asteroid 
-      standardMeasurement = new float[] {3.3, 33.3, 30, 16.6, 13.3};
-    }
-
-    else if (size == 2) { // medium asteroid
-      // random numbers indicating the location of the indents on the x axis  
-      lengthMeasurement = new float[] {random (2.5, 22.5), random (25, 47.5), 
-        random (25, 47.5), random (2.5, 22.5)};
-
-      // random numbers indicating the location of the indents on the y axis
-      heightMeasurement = new float[] {random (2.5, 10), random (15, 22.5), 
-        random (15, 22.5), random (2.5, 10)};
-
-      // random numbers indicating the angle the indents will form
-      innerMeasurement = new float[] {random (15, 25), random (7.5, 10), 
-        random (15, 25), random (7.5, 10)};
-
-      // standard measurements for the specific size asteroid
-      standardMeasurement = new float[] {5, 50, 45, 25, 20};
-    }
-
-    else if (size == 3) { // large asteroid
-      // random numbers indicating the location of the indents on the x axis
-      lengthMeasurement = new float[] {random (5, 45), random (50, 95), 
-        random (50, 95), random (5, 45)};
-
-      // random numbers indicating the location of the indents on the y axis
-      heightMeasurement = new float[] {random (5, 20), random (30, 45), 
-        random (30, 45), random (5, 20)};
-
-      // random numbers indicating the angle the indents will form 
-      innerMeasurement = new float[] {random (30, 50), random (15, 20), 
-        random (30, 50), random (15, 20)};
-
-      // standard measurements for the specific size asteroid
-      standardMeasurement = new float[] {10, 100, 90, 50, 40};
+    // Create an 2D array for the measurement arrays
+    float[][] measurements = {lengthMeasurement, heightMeasurement, 
+      innerMeasurement, standardMeasurement};
+    
+    // Using a two loop structure iterate through all measurements
+    // and scaling them to the asteroid size
+    for (int i = 0; i < measurements.length; i++) {
+      for (int m = 0; m < measurements[i].length; m++) {
+        measurements[i][m] /= 4 - size;
+      }
     }
 
     // Set a random direction for each asteroid generated
@@ -178,24 +154,13 @@ class Asteroid {
       // do nothing, can't split the smallest size
     }
 
-    if (sizeTemp == 2) {
+    if (sizeTemp > 1) {
       for (int i = 0; i < 2; i++) { //loop through to make two asteroids
         float xpos = xposTemp + random (0, 20);
         float ypos = yposTemp + random (0, 20);
-        asteroids.add(new Asteroid(speedLevel, 1));
+        asteroids.add(new Asteroid(speedLevel, size - 1));
         Asteroid newRoid = asteroids.get(asteroids.size()-1);
         newRoid.x = xpos + overlapBuf;// avoid overlapping 
-        newRoid.y = ypos + overlapBuf;
-      }
-    }
-
-    if (sizeTemp == 3) {
-      for (int i = 0; i < 2; i++) { //loop through to make two asteroids
-        float xpos = xposTemp + random (0, 20);
-        float ypos = yposTemp + random (0, 20);
-        asteroids.add(new Asteroid(speedLevel, 2)); 
-        Asteroid newRoid = asteroids.get(asteroids.size()-1);
-        newRoid.x = xpos + overlapBuf; // avoid overlapping 
         newRoid.y = ypos + overlapBuf;
       }
     }
