@@ -1,0 +1,5 @@
+A list of audio sources:
+
+'CreepySpace.mp3' audio sourced from: https://www.youtube.com/watch?v=kKy4k5qq9SQ
+'projectileSound.mp3' audio sourced from: 
+'explosionSound.mp3' audio sourced from:
