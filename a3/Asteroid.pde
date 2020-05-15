@@ -5,11 +5,13 @@
  required to update, display and split Asteroids
  ***************************************************************/
 class Asteroid {
-  // Variables to store the numbers required to generate the 
+  // Arrays to store the measurements required to generate the 
   // asteroid shape
-  float length1, length2, length3, length4;
-  float height1, height2, height3, height4;
-  float inner1, inner2, inner3, inner4;
+  float[] lengthMeasurement; //array of random verticies on the x axis
+  float[] heightMeasurement; //array of random verticies on the y axis
+  float[] innerMeasurement; //array of random verticies on the interior
+  float[] standardMeasurement; //array of verticies that don't change
+
 
   // Variables to store the position and movement
   float x, y;                 // Coordinates of the asteroid
@@ -18,10 +20,7 @@ class Asteroid {
   int size;                   //Size of the asteroid (small, med, large)
   PVector location;           // PVector storing location of asteroid
 
-  float[] lengthMeasurement; //array of random verticies on the x axis
-  float[] heightMeasurement; //array of random verticies on the y axis
-  float[] innerMeasurement; //array of random verticies on the interior
-  float[] standardMeasurement; //array of verticies that don't change
+
 
   // Contructor
   Asteroid(float speed, int size) {
@@ -150,10 +149,7 @@ class Asteroid {
     int overlapBuf = 20;
 
     // check whether to add two smaller asteroids to array
-    if (sizeTemp == 1) {
-      // do nothing, can't split the smallest size
-    }
-
+    // If size is one - it cannot be split
     if (sizeTemp > 1) {
       for (int i = 0; i < 2; i++) { //loop through to make two asteroids
         float xpos = xposTemp + random (0, 20);
