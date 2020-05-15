@@ -10,14 +10,14 @@ class Asteroid {
   float length1, length2, length3, length4;
   float height1, height2, height3, height4;
   float inner1, inner2, inner3, inner4;
-  
+
   // Variables to store the position and movement
   float x, y;                 // Coordinates of the asteroid
   int xDirection, yDirection; // Horizontal and vertical direction of motion
   float speed;                // Speed of the movement
   int size;                   //Size of the asteroid (small, med, large)
   PVector location;           // PVector storing location of asteroid
-  
+
   float[] lengthMeasurement; //array of random verticies on the x axis
   float[] heightMeasurement; //array of random verticies on the y axis
   float[] innerMeasurement; //array of random verticies on the interior
@@ -30,46 +30,55 @@ class Asteroid {
     location = new PVector(x, y);
     this.speed = speed;
     this.size = size;
-    
-    if (size == 1){ // small asteroid
+
+    if (size == 1) { // small asteroid
       // random numbers indicating the location of the indents on the x axis  
-      lengthMeasurement = new float[] {random (1.5,15), random (16.5, 31.5),random (16.5, 31.5), random (1.5,15)};
-      
+      lengthMeasurement = new float[] {random (1.5, 15), random (16.5, 31.5), 
+        random (16.5, 31.5), random (1.5, 15)};
+
       // random numbers indicating the location of the indents on the y axis
-      heightMeasurement = new float[] {random (1.5,6.5), random (10,15), random (10,15), random (1.5,6.5)};
-      
-      // random numbers indicating the angle the indents will form toward the centre of the asteroid
-      innerMeasurement = new float[] {random (10,16.5), random (5, 6.5), random (10,16.5), random (5, 6.5)};
-      
-      // standard measurements for the specific size asteroid (these aren't random)
+      heightMeasurement = new float[] {random (1.5, 6.5), random (10, 15), 
+        random (10, 15), random (1.5, 6.5)};
+
+      // random numbers indicating the angle the indents will form
+      innerMeasurement = new float[] {random (10, 16.5), random (5, 6.5), 
+        random (10, 16.5), random (5, 6.5)};
+
+      // standard measurements for the specific size asteroid 
       standardMeasurement = new float[] {3.3, 33.3, 30, 16.6, 13.3};
     }
-    
-    if (size == 2){ // medium asteroid
+
+    else if (size == 2) { // medium asteroid
       // random numbers indicating the location of the indents on the x axis  
-      lengthMeasurement = new float[] {random (2.5,22.5), random (25, 47.5), random (25, 47.5), random (2.5,22.5)};
-      
+      lengthMeasurement = new float[] {random (2.5, 22.5), random (25, 47.5), 
+        random (25, 47.5), random (2.5, 22.5)};
+
       // random numbers indicating the location of the indents on the y axis
-      heightMeasurement = new float[] {random (2.5,10), random (15, 22.5), random (15,22.5), random (2.5,10)};
-      
-      // random numbers indicating the angle the indents will form toward the centre of the asteroid
-      innerMeasurement = new float[] {random (15,25), random (7.5, 10), random (15,25), random (7.5, 10)};
-      
-      // standard measurements for the specific size asteroid (these aren't random)
+      heightMeasurement = new float[] {random (2.5, 10), random (15, 22.5), 
+        random (15, 22.5), random (2.5, 10)};
+
+      // random numbers indicating the angle the indents will form
+      innerMeasurement = new float[] {random (15, 25), random (7.5, 10), 
+        random (15, 25), random (7.5, 10)};
+
+      // standard measurements for the specific size asteroid
       standardMeasurement = new float[] {5, 50, 45, 25, 20};
     }
-    
-    if (size == 3){ // large asteroid
+
+    else if (size == 3) { // large asteroid
       // random numbers indicating the location of the indents on the x axis
-      lengthMeasurement = new float[] {random (5,45), random (50, 95), random (50,95), random (5,45)};
-  
+      lengthMeasurement = new float[] {random (5, 45), random (50, 95), 
+        random (50, 95), random (5, 45)};
+
       // random numbers indicating the location of the indents on the y axis
-      heightMeasurement = new float[] {random (5,20), random (30, 45), random (30,45), random (5,20)};
-      
-      // random numbers indicating the angle the indents will form toward the centre of the asteroid
-      innerMeasurement = new float[] {random (30,50), random (15, 20), random (30,50), random (15, 20)};
-      
-      // standard measurements for the specific size asteroid (these aren't random)
+      heightMeasurement = new float[] {random (5, 20), random (30, 45), 
+        random (30, 45), random (5, 20)};
+
+      // random numbers indicating the angle the indents will form 
+      innerMeasurement = new float[] {random (30, 50), random (15, 20), 
+        random (30, 50), random (15, 20)};
+
+      // standard measurements for the specific size asteroid
       standardMeasurement = new float[] {10, 100, 90, 50, 40};
     }
 
