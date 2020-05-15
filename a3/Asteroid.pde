@@ -10,14 +10,18 @@ class Asteroid {
   float length1, length2, length3, length4;
   float height1, height2, height3, height4;
   float inner1, inner2, inner3, inner4;
-
+  
   // Variables to store the position and movement
   float x, y;                 // Coordinates of the asteroid
   int xDirection, yDirection; // Horizontal and vertical direction of motion
   float speed;                // Speed of the movement
   int size;                   //Size of the asteroid (small, med, large)
   PVector location;           // PVector storing location of asteroid
-
+  
+  float[] lengthMeasurement; //array of random verticies on the x axis
+  float[] heightMeasurement; //array of random verticies on the y axis
+  float[] innerMeasurement; //array of random verticies on the interior
+  float[] standardMeasurement; //array of verticies that don't change
 
   // Contructor
   Asteroid(float speed, int size) {
@@ -26,20 +30,48 @@ class Asteroid {
     location = new PVector(x, y);
     this.speed = speed;
     this.size = size;
-
-    // Set random measurements for asteroid construction
-    length1 = random (5, 45);  // Location of 1st indent on x axis
-    length2 = random (50, 95); // Location of 2nd indent on x axis
-    length3 = random (50, 95); // Location of 3rd indent on x axis
-    length4 = random (5, 45);  // Location of 4th indent on x axis
-    height1 = random (5, 20);  // Location of 1st indent on y axis
-    height2 = random (30, 45); // Location of 2nd indent on y axis
-    height3 = random (30, 45); // Location of 3rd indent on y axis
-    height4 = random (5, 20);  // Location of 4th indent on y axis
-    inner1 = random (30, 50);  // Depth of top x axis indent
-    inner2 = random (15, 20);  // Depth of right y axis indent
-    inner3 = random (30, 50);  // Depth of bottom x axis indent
-    inner4 = random (15, 20);  // Depth of left y axis indent
+    
+    if (size == 1){ // small asteroid
+      // random numbers indicating the location of the indents on the x axis  
+      lengthMeasurement = new float[] {random (1.5,15), random (16.5, 31.5),random (16.5, 31.5), random (1.5,15)};
+      
+      // random numbers indicating the location of the indents on the y axis
+      heightMeasurement = new float[] {random (1.5,6.5), random (10,15), random (10,15), random (1.5,6.5)};
+      
+      // random numbers indicating the angle the indents will form toward the centre of the asteroid
+      innerMeasurement = new float[] {random (10,16.5), random (5, 6.5), random (10,16.5), random (5, 6.5)};
+      
+      // standard measurements for the specific size asteroid (these aren't random)
+      standardMeasurement = new float[] {3.3, 33.3, 30, 16.6, 13.3};
+    }
+    
+    if (size == 2){ // medium asteroid
+      // random numbers indicating the location of the indents on the x axis  
+      lengthMeasurement = new float[] {random (2.5,22.5), random (25, 47.5), random (25, 47.5), random (2.5,22.5)};
+      
+      // random numbers indicating the location of the indents on the y axis
+      heightMeasurement = new float[] {random (2.5,10), random (15, 22.5), random (15,22.5), random (2.5,10)};
+      
+      // random numbers indicating the angle the indents will form toward the centre of the asteroid
+      innerMeasurement = new float[] {random (15,25), random (7.5, 10), random (15,25), random (7.5, 10)};
+      
+      // standard measurements for the specific size asteroid (these aren't random)
+      standardMeasurement = new float[] {5, 50, 45, 25, 20};
+    }
+    
+    if (size == 3){ // large asteroid
+      // random numbers indicating the location of the indents on the x axis
+      lengthMeasurement = new float[] {random (5,45), random (50, 95), random (50,95), random (5,45)};
+  
+      // random numbers indicating the location of the indents on the y axis
+      heightMeasurement = new float[] {random (5,20), random (30, 45), random (30,45), random (5,20)};
+      
+      // random numbers indicating the angle the indents will form toward the centre of the asteroid
+      innerMeasurement = new float[] {random (30,50), random (15, 20), random (30,50), random (15, 20)};
+      
+      // standard measurements for the specific size asteroid (these aren't random)
+      standardMeasurement = new float[] {10, 100, 90, 50, 40};
+    }
 
     // Set a random direction for each asteroid generated
     xDirection = round(random(-3, 3));
@@ -73,16 +105,16 @@ class Asteroid {
     if ((x <= 0) || (x > width) || (y <= 0) || (y > height)) {
 
       if (x <= 0) {
-        x = width;
+        x = width; // move asteroid to far right of screen
       }
       if (y <= 0) {
-        y = height;
+        y = height; // move asteroid to bottom of screen
       }
       if (x > width) {
-        x = 0;
+        x = 0; // move asteroid to far left of screen
       }
       if (y > height) {
-        y = 0;
+        y = 0; // move asteroid to top of screen
       }
     }
   }
@@ -98,81 +130,24 @@ class Asteroid {
    ***************************************************************/
 
   void display() {
-    // Scale measurements to size
-    float l1 = length1/(4-size);
-    float l2 = length2/(4-size);
-    float l3 = length3/(4-size);
-    float l4 = length4/(4-size);
-    float h1 = height1/(4-size);
-    float h2 = height2/(4-size);
-    float h3 = height3/(4-size);
-    float h4 = height4/(4-size);
-    float i1 = inner1/(4-size);
-    float i2 = inner2/(4-size);
-    float i3 = inner3/(4-size);
-    float i4 = inner4/(4-size);
-
-
-    // Set the outline to white and noFill
-    stroke(153);
-    noFill();
-
-    if (size == 1) { // small asteroid
-      // plot the shape
-      beginShape();
-      vertex(l1+x, y);
-      vertex(i1+x, 3.3+y);
-      vertex(l2+x, 0+y);
-      vertex(33.3+x, h1+y);
-      vertex(30+x, i2+y);
-      vertex(33.3+x, h2+y);
-      vertex(l3+x, 16.6+y);
-      vertex(i3+x, 13.3+y);
-      vertex(l4+x, 16.6+y);
-      vertex(x, h3+y);
-      vertex(3.3+x, i4+y);
-      vertex(x, h4+y);
-      vertex(l1+x, y);
-      endShape();
-    } else if (size == 2) { // medium asteroid
-      // plot the shape
-      beginShape();
-      vertex(l1+x, y);
-      vertex(i1+x, 5+y);
-      vertex(l2+x, y);
-      vertex(50+x, h1+y);
-      vertex(45+x, i2+y);
-      vertex(50+x, h2+y);
-      vertex(l3+x, 25+y);
-      vertex(i3+x, 20+y);
-      vertex(l4+x, 25+y);
-      vertex(x, h3+y);
-      vertex(5+x, i4+y);
-      vertex(x, h4+y);
-      vertex(l1+x, y);
-      endShape();
-    } else if (size == 3) { // large asteroid
-      // plot the shape
-      beginShape();
-      vertex(l1+x, y);
-      vertex(i1+x, 10+y);
-      vertex(l2+x, y);
-      vertex(100+x, h1+y);
-      vertex(90+x, i2+y);
-      vertex(100+x, h2+y);
-      vertex(l3+x, 50+y);
-      vertex(i3+x, 40+y);
-      vertex(l4+x, 50+y);
-      vertex(x, h3+y);
-      vertex(10+x, i4+y);
-      vertex(x, h4+y);
-      vertex(l1+x, y);
-      endShape();
-    } else {
-      System.out.println("GHOST ASTEROID");
-      // for error handling and debugging purposes
-      // not required for gameplay
-    }
+    // draw the shape using the generated measurements
+    stroke(153); // set line color to grey
+    noFill(); // do not fill in shape
+    beginShape();
+    vertex(lengthMeasurement[0]+x, y);
+    vertex(innerMeasurement[0]+x, standardMeasurement[0]+y);
+    vertex(lengthMeasurement[1]+x, y);
+    vertex(standardMeasurement[1]+x, heightMeasurement[0]+y);
+    vertex(standardMeasurement[2]+x, innerMeasurement[1]+y);
+    vertex(standardMeasurement[1]+x, heightMeasurement[1]+y);
+    vertex(lengthMeasurement[2]+x, standardMeasurement[3]+y);
+    vertex(innerMeasurement[2]+x, standardMeasurement[4]+y);
+    vertex(lengthMeasurement[3]+x, standardMeasurement[3]+y);
+    vertex(x, heightMeasurement[2]+y);
+    vertex(standardMeasurement[0]+x, innerMeasurement[3]+y);
+    vertex(x, heightMeasurement[3]+y);
+    vertex(lengthMeasurement[0]+x, y);
+    endShape();
   }
 
   /**************************************************************
