@@ -69,7 +69,7 @@ void setup() {
   minim = new Minim(this);
   bulletSound = minim.loadFile("./Audio/bulletSound.wav");
   explosionSound = minim.loadFile("./Audio/explosionSound.wav");
-  backgroundSound = minim.loadFile("./Audio/CreepySpace.mp3");
+  backgroundSound = minim.loadFile("./Audio/bensound-scifi.mp3");
   // Loop background sound
   backgroundSound.loop();
 
