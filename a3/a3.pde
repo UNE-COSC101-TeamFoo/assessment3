@@ -34,6 +34,7 @@ AudioPlayer backgroundSound;       // Object to play background music
 AudioPlayer bulletSound;           // Object to play projectile sound
 AudioPlayer explosionSound;        // Object to play explosion sound
 
+// PlayerShip and AlienShip objects
 PlayerShip player;
 AlienShip AlienShip;
 
@@ -42,15 +43,16 @@ ArrayList <Explosion> explosions = new ArrayList<Explosion>();
 ArrayList <Bullet> bullets = new ArrayList<Bullet>();
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 
-float bgColor = 0;
-int level = 1;
-int score; 
-float speedLevel;
-int asteroidCount = 5*level;  // number of asteroids to be generated
-int alienEntrySec = 40;       // entry second for AlienShip
+float bgColor = 0;         // Background colour (Black)
+int level;                 // Level counter
+int score;                 // Score counter
+float speedLevel;          // Speed level of asteroids
+int asteroidCount;         // number of asteroids to be generated
+int alienEntrySec = 40;    // entry second for AlienShip
+boolean startMode = true;  // Boolean flag for StartScreen
+boolean gameOver = false;  // Boolean flag for GameOverScreen
+// Boolean for user key input
 boolean sUP=false, sRIGHT=false, sLEFT=false;
-boolean startMode = true; // Boolean flag for StartScreen
-boolean gameOver = false; // Boolean flag for GameOverScreen
 
 //Images for startScreen
 PImage foo;
@@ -59,7 +61,7 @@ PImage astIcon;
 void setup() {
   size(800, 800);
 
-  // Create PlayerShip and AlienShip objects
+  // Initialize PlayerShip and AlienShip objects
   player = new PlayerShip(); 
   AlienShip = new AlienShip();
 
@@ -140,7 +142,6 @@ void draw() {
     }
   }
 
-
   // Iterate through explosion array. If there are any Explosion objects,
   // draw and periodically update all explosions.
   for (int e = 0; e < explosions.size(); e++) {
@@ -160,7 +161,6 @@ void draw() {
     }
   }
 }
-
 
 /**************************************************************
  * Function: keyPressed()
@@ -229,7 +229,6 @@ void keyReleased() {
   }
 }
 
-
 /**************************************************************
  * Function: moveShip()
  * Parameters: None
@@ -241,7 +240,7 @@ void keyReleased() {
 void moveShip() {
   if (sUP) {
     // Accelerate PlayerShip
-    player.accel();// - CS
+    player.accelerate();// - CS
   }
   if (sRIGHT) {
     // Rotate PlayerShip clockwise
@@ -261,7 +260,6 @@ void moveShip() {
  without the player losing a life. Overloaded function to work
  with different objects as parameters
  ***************************************************************/
-
 void calculateScore (Asteroid roid) {
   if (player.active) {
     if (roid.size == 1) {
@@ -287,7 +285,6 @@ void calculateScore(AlienShip alien) {
  * Returns: Void
  * Desc: Displays the score variable at 7 digits in top left corner
  ***************************************************************/
-
 void displayScore() {
   // Set text alignment, size and colour
   int scoreX = 50;
@@ -484,6 +481,7 @@ void checkLevel() {
     speedLevel += speedIncrement; // increase speed
     player.reset(); // reset the player position on the screen
     player.active = false; // Ensure player invulnerability
+    asteroidCount = 5 + level;
     // generate new asteroids according to the asteroidCount variable
     for (int i = 0; i < asteroidCount; i++) {
       asteroids.add(new Asteroid(speedLevel, round(random(1, 3))));
@@ -529,7 +527,7 @@ void startScreen() {
   text("Press ENTER to Play", width/2, (height/4)*3);
   // Reset level, score, speed, lives and populate with Asteroids
   score = 0;
-  level = 1;
+  level = 0;
   speedLevel = 0.2;
   player.lives = 3;
   checkLevel();

@@ -4,6 +4,7 @@
  * Desc: This class generates and stores attributes and methods
  required to update, display and split Asteroids
  ***************************************************************/
+
 class Asteroid {
   // Arrays to store the measurements required to generate the 
   // asteroid shape
@@ -33,26 +34,27 @@ class Asteroid {
     // random numbers indicating the location of the indents on the x axis
     lengthMeasurement = new float[] {random (5, 45), random (50, 95), 
       random (50, 95), random (5, 45)};
-      
+
     // random numbers indicating the location of the indents on the y axis
     heightMeasurement = new float[] {random (5, 20), random (30, 45), 
       random (30, 45), random (5, 20)};
-      
+
     // random numbers indicating the angle the indents will form 
     innerMeasurement = new float[] {random (30, 50), random (15, 20), 
       random (30, 50), random (15, 20)};
-      
+
     // standard measurements for the specific size asteroid
     standardMeasurement = new float[] {10, 100, 90, 50, 40};
 
     // Create an 2D array for the measurement arrays
     float[][] measurements = {lengthMeasurement, heightMeasurement, 
       innerMeasurement, standardMeasurement};
-    
+
     // Using a two loop structure iterate through all measurements
     // and scaling them to the asteroid size
     for (int i = 0; i < measurements.length; i++) {
       for (int m = 0; m < measurements[i].length; m++) {
+        // Divided by 4 - size to give appropriate length
         measurements[i][m] /= 4 - size;
       }
     }
@@ -79,7 +81,6 @@ class Asteroid {
    facilitate movement. Reset the asteroid to the opposite side of
    the playable area if it moves off the visible screen.
    ***************************************************************/
-
   void update() { 
     x += (speed * xDirection);
     y += (speed * yDirection);
@@ -103,7 +104,6 @@ class Asteroid {
     }
   }
 
-
   /**************************************************************
    * Method: Asteroid.display()
    * Parameters: none
@@ -112,7 +112,6 @@ class Asteroid {
    based on the measurements randomized when the asteroids are first
    stored in the array.
    ***************************************************************/
-
   void display() {
     // draw the shape using the generated measurements
     stroke(153); // set line color to grey

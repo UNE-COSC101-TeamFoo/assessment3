@@ -22,6 +22,7 @@ class AlienShip {
     location = new PVector(start.x, start.y);
     velocity = new PVector(1, 1);
   }
+  
   /*******************************************************************
    * Method: AlienShip.move()
    * Parameters: None
@@ -89,7 +90,7 @@ class AlienShip {
   } 
 
   /*******************************************************************
-   * Method: AlienShip.()randomStart
+   * Method: AlienShip.randomStart()
    * Parameters: None
    * Returns: Void
    * Desc: This method randomizes and resets the AlienShip's location

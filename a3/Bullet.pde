@@ -13,11 +13,11 @@ class Bullet {
   int radius = 5;      // Radius of bullet
   float angle;         // Angle of bullet velocity
 
-  
+
   // Constructor
   Bullet(PVector originLoc, String originType) {
     this.originType = originType;
-    
+
     // Starting location for Bullet - AlienShip
     // or playerShip location attributes passed through
     location = new PVector(originLoc.x, originLoc.y);
@@ -46,7 +46,7 @@ class Bullet {
       velocity = new PVector(speed * cos(angle), speed * sin(angle));
     }
   }
-  
+
   /**************************************************************
    * Method: Bullet.update()
    * Parameters: None
@@ -58,7 +58,7 @@ class Bullet {
     // Move the bullet
     location.add(velocity);
   }
-  
+
   /**************************************************************
    * Method: Bullet.display()
    * Parameters: None
