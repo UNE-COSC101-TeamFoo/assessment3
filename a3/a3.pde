@@ -1,7 +1,7 @@
 
 /**************************************************************
  * File: a3.pde
- * Last modified: 12/05/2020
+ * Last modified: 16/05/2020
  * Group: <Benjamin Nolan,Elsa Gaskell,Callum Sandercock>
  * Date Commenced: 21/03/2020
  * Date Completed MVP + Features: 12/05/2020
@@ -25,6 +25,7 @@
  * Use Up, Left and Right arrow keys to move PlayerShip
  * ...
  * ...
+ * Video link: xxx
  **************************************************************/
 
 
@@ -106,7 +107,7 @@ void draw() {
   collisionDetection(player, AlienShip);
 
   // Display AlienShip and periodically make the AlienShip
-  // move onto screen and shoot at PLayerShip
+  // move onto screen and shoot at PlayerShip
   AlienShip.display();
   if (second() % alienEntrySec == 0 && !AlienShip.active) {
     AlienShip.active = true;
@@ -194,7 +195,7 @@ void keyPressed() {
     if (startMode) {
       startMode = false;
     }
-    // Leav Game Over Screen and go back to Start Screen
+    // Leave Game Over Screen and go back to Start Screen
     if (gameOver) {
       startMode = true;
       gameOver = false;
@@ -241,15 +242,15 @@ void keyReleased() {
 void moveShip() {
   if (sUP) {
     // Accelerate PlayerShip
-    player.accel();// - CS
+    player.accel();
   }
   if (sRIGHT) {
     // Rotate PlayerShip clockwise
-    player.rotateRight();// - CS
+    player.rotateRight();
   }
   if (sLEFT) {
     // Rotate PlayerShip anti-clockwise
-    player.rotateLeft();// - CS
+    player.rotateLeft();
   }
 }
 
@@ -261,7 +262,6 @@ void moveShip() {
  without the player losing a life. Overloaded function to work
  with different objects as parameters
  ***************************************************************/
-
 void calculateScore (Asteroid roid) {
   if (player.active) {
     if (roid.size == 1) {
@@ -287,7 +287,6 @@ void calculateScore(AlienShip alien) {
  * Returns: Void
  * Desc: Displays the score variable at 7 digits in top left corner
  ***************************************************************/
-
 void displayScore() {
   // Set text alignment, size and colour
   int scoreX = 50;
@@ -501,7 +500,7 @@ void checkLevel() {
  game to the end-user
  ***************************************************************/
 void startScreen() {
-  // set background color
+  // set background colour
   background(bgColor); 
   int iconLength = 100;
   int fooX = 625;
@@ -512,7 +511,7 @@ void startScreen() {
   image(foo, fooX, fooY, iconLength, iconLength);
   image(astIcon, astIconX, astIconY, iconLength, iconLength);
 
-  // Set text color, size and alignment
+  // Set text colour, size and alignment
   int accelerateY = 440;
   int turnY = 460;
   int shootY = 480;

@@ -4,6 +4,7 @@
  * Desc: This class generates and stores attributes and methods
  required to update, display and split Asteroids
  ***************************************************************/
+ 
 class Asteroid {
   // Arrays to store the measurements required to generate the 
   // asteroid shape
@@ -12,15 +13,12 @@ class Asteroid {
   float[] innerMeasurement; //array of random verticies on the interior
   float[] standardMeasurement; //array of verticies that don't change
 
-
   // Variables to store the position and movement
   float x, y;                 // Coordinates of the asteroid
   int xDirection, yDirection; // Horizontal and vertical direction of motion
   float speed;                // Speed of the movement
   int size;                   //Size of the asteroid (small, med, large)
   PVector location;           // PVector storing location of asteroid
-
-
 
   // Contructor
   Asteroid(float speed, int size) {
@@ -33,22 +31,22 @@ class Asteroid {
     // random numbers indicating the location of the indents on the x axis
     lengthMeasurement = new float[] {random (5, 45), random (50, 95), 
       random (50, 95), random (5, 45)};
-      
+
     // random numbers indicating the location of the indents on the y axis
     heightMeasurement = new float[] {random (5, 20), random (30, 45), 
       random (30, 45), random (5, 20)};
-      
+
     // random numbers indicating the angle the indents will form 
     innerMeasurement = new float[] {random (30, 50), random (15, 20), 
       random (30, 50), random (15, 20)};
-      
+
     // standard measurements for the specific size asteroid
     standardMeasurement = new float[] {10, 100, 90, 50, 40};
 
     // Create an 2D array for the measurement arrays
     float[][] measurements = {lengthMeasurement, heightMeasurement, 
       innerMeasurement, standardMeasurement};
-    
+
     // Using a two loop structure iterate through all measurements
     // and scaling them to the asteroid size
     for (int i = 0; i < measurements.length; i++) {
@@ -79,7 +77,6 @@ class Asteroid {
    facilitate movement. Reset the asteroid to the opposite side of
    the playable area if it moves off the visible screen.
    ***************************************************************/
-
   void update() { 
     x += (speed * xDirection);
     y += (speed * yDirection);
@@ -112,7 +109,6 @@ class Asteroid {
    based on the measurements randomized when the asteroids are first
    stored in the array.
    ***************************************************************/
-
   void display() {
     // draw the shape using the generated measurements
     stroke(153); // set line color to grey

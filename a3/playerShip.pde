@@ -21,7 +21,6 @@ class PlayerShip {
   boolean active = false;
   int liveFlash = 0;          // Counter for invulnerability flashes
 
-
   // Constructor
   PlayerShip() {
     location = new PVector(width/2, height/2); // Middle point of screen
@@ -39,13 +38,13 @@ class PlayerShip {
    the velocity, applies drag to the PlayerShip motion
    ***************************************************************/
   void update() {
-
     velocity.add(acceleration); 
     velocity.mult(.994); //add drag to velocity
     velocity.limit(maxSpeed);
     location.add(velocity); 
     wrap();
   } 
+  
   /**************************************************************
    * Method: PlayerShip.render()
    * Parameters: None

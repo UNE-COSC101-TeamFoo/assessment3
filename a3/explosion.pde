@@ -7,7 +7,6 @@
  ***************************************************************/
 
 class Explosion {
-
   int explosionOpacity;    // Variable to store changing opacity
   PVector explosionLoc[];  // Array to store PVectors of particles
   int currentCycle = 0;    // Counter of explosion cycles
@@ -49,7 +48,6 @@ class Explosion {
    explosion, setting opacity beforehand
    ***************************************************************/
   void display() {
-
     if (currentCycle < explosionLimit) {
       noStroke();
       fill(160, explosionOpacity); 
