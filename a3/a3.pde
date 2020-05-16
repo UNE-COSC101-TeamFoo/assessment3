@@ -1,4 +1,3 @@
-
 /**************************************************************
  * File: a3.pde
  * Last modified: 16/05/2020
@@ -27,7 +26,6 @@
  * ...
  * Video link: xxx
  **************************************************************/
-
 
 import ddf.minim.*;                // Import Minim sound library
 Minim minim;                       // Minium object to load music
@@ -141,7 +139,6 @@ void draw() {
     }
   }
 
-
   // Iterate through explosion array. If there are any Explosion objects,
   // draw and periodically update all explosions.
   for (int e = 0; e < explosions.size(); e++) {
@@ -161,7 +158,6 @@ void draw() {
     }
   }
 }
-
 
 /**************************************************************
  * Function: keyPressed()
@@ -230,7 +226,6 @@ void keyReleased() {
   }
 }
 
-
 /**************************************************************
  * Function: moveShip()
  * Parameters: None
@@ -297,7 +292,6 @@ void displayScore() {
   // Display score as 7 digits before decimal point in top-left corner
   text("Score: " + nf(score, 7), scoreX, scoreY);
 }
-
 
 /***************************************************************************
  * Function: collisionDetection()
@@ -371,7 +365,6 @@ boolean circleToAsteroid(Asteroid roid, PVector circleLoc, int radius) {
     return false;
   }
 }
-
 
 /**********************************************************************
  * Function: collisionDetection()
