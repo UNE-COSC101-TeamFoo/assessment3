@@ -517,7 +517,7 @@ void startScreen() {
   fill(255); 
   textSize(36);
   textAlign(CENTER); 
-  text("ASTEROID CLONE", width/2, height/4); // Title
+  text("ASTEROIDS CLONE", width/2, height/4); // Title
   // Reset text size
   textSize(20); 
   text("CONTROLS", width/2, height/2);
