@@ -26,6 +26,7 @@ class Explosion {
 
     // Array for the relative positions of the singular explosion particles
     // in relation to the origin x and y locations
+    // Hard-coded to plot natural particle positions
     int X[] = {-25, -22, -19, -10, -5, 0, 8, 10, 18, 20, 25};
     int Y[] = {0, -10, 23, 5, 20, -15, 25, -7, -30, 0, 5};
 
@@ -48,6 +49,7 @@ class Explosion {
    explosion, setting opacity beforehand
    ***************************************************************/
   void display() {
+
     if (currentCycle < explosionLimit) {
       noStroke();
       fill(160, explosionOpacity); 

@@ -4,7 +4,7 @@
  * Desc: This class Generates and stores variables required to 
  * draw and move the AlienShip and the methods of this object
  ***************************************************************/
- 
+
 class AlienShip { 
   float AlienShipSpeed = 1.5;// AlienShip Speed
   PVector velocity, location;// PVectors for motion
@@ -14,7 +14,7 @@ class AlienShip {
   int alienBuffer = 100;     // Amount of pixels an AlienShip can move offscreen
   int fiveSeconds = 300;     // Amount of frames in 5 seconds
   float xRandom, yRandom;    // Floats to load random start into
-
+  
   // Constructor
   AlienShip() {
     PVector start = new PVector();
@@ -22,36 +22,37 @@ class AlienShip {
     location = new PVector(start.x, start.y);
     velocity = new PVector(1, 1);
   }
-
+  
   /*******************************************************************
    * Method: AlienShip.move()
    * Parameters: None
    * Returns: Void
-   * Desc: This method moves the AlienShip and limits its movement to
-   a little off screen, at which point the AlienShip's direction is
-   changed.
+   * Desc: This method moves the AlienShip and limits it movement to
+   a little off screen, at which point the ALienShip's direction is
+   
    ******************************************************************/
   void move() {
     // If AlienShip travels too far right or left
     if (location.x > (width + alienBuffer)|| location.x < -alienBuffer) {
       velocity.x *= -1;
     }
-
+    
     // If AlienShip travels too far up or down
     if (location.y > (height + alienBuffer)|| location.y < -alienBuffer) {
       velocity.y *= -1;
     }
-
+    
     // Add speed times velocity to location
     location.x += AlienShipSpeed * velocity.x;
     location.y += AlienShipSpeed * velocity.y;
   }
-
+  
   /*******************************************************************
    * Method: AlienShip.display()
    * Parameters: None
    * Returns: Void
-   * Desc: This method is the AlienShip object drawn.
+   * Desc: This method moves the AlienShip on screen and shoots a 
+   bullet towards PlayerShip every 5 seconds if AlienShip is on screen
    ******************************************************************/
   void display() {
     // Outer circle of AlienShip

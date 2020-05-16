@@ -1,7 +1,10 @@
 /**************************************************************
  * Class: PlayerShip()
  * Constructor: No parameters
- * Desc: 
+ * Desc: This class creates an object for the end-user to travel 
+ around the screen and play the game. The attributes and methods
+ described allow this object to move, die, restart, wrap position
+ and display the number of lives below the score display.
  ***************************************************************/
 
 class PlayerShip {
@@ -21,6 +24,7 @@ class PlayerShip {
   boolean active = false;
   int liveFlash = 0;          // Counter for invulnerability flashes
 
+
   // Constructor
   PlayerShip() {
     location = new PVector(width/2, height/2); // Middle point of screen
@@ -38,13 +42,14 @@ class PlayerShip {
    the velocity, applies drag to the PlayerShip motion
    ***************************************************************/
   void update() {
+
     velocity.add(acceleration); 
     velocity.mult(.994); //add drag to velocity
     velocity.limit(maxSpeed);
     location.add(velocity); 
     wrap();
   } 
-  
+
   /**************************************************************
    * Method: PlayerShip.render()
    * Parameters: None
@@ -57,7 +62,7 @@ class PlayerShip {
     // Translate and rotate PlayerShip location
     translate(location.x, location.y);
     // HALFI_PI must be added to match angular acceleration
-    rotate(angle + HALF_PI); 
+    rotate(angle); 
 
     //Draw Ship
     int r = radius;
@@ -80,10 +85,11 @@ class PlayerShip {
         }
       }
       // Draw an equilateral triangle with a inner point
-      // (shipIndent) making it a quad
-      quad(0, -r, -r, r, 0, shipIndent, r, r);
+      // (shipIndent) making it a quad facing right to be
+      // rotated  270 degrees to face upwards
+      quad(-r, -r, -shipIndent, 0, -r, r, r, 0);
     } else {
-      quad(0, -r, -r, r, 0, shipIndent, r, r);
+      quad(-r, -r, -shipIndent, 0, -r, r, r, 0);
       liveFlash = 0;
     }
     popMatrix();
@@ -115,10 +121,10 @@ class PlayerShip {
    * Returns: Void
    * Desc: This method determines the x and y acceleration of the
    PlayerShip through the cosine and sine functions. This allows
-   the PlayerShip object to have angular acceleration/motion
-   Method built on code by
+   the PlayerShip object to have angular acceleration/velocity/motion.
+   Idea taken from: https://natureofcode.com/book/chapter-3-oscillation/
    ***************************************************************/
-  void accel() {
+  void accelerate() {
     // Angular Acceleration
     acceleration = new PVector(accelSpeed*cos(angle), accelSpeed*sin(angle));
   }

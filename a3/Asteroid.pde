@@ -4,7 +4,7 @@
  * Desc: This class generates and stores attributes and methods
  required to update, display and split Asteroids
  ***************************************************************/
- 
+
 class Asteroid {
   // Arrays to store the measurements required to generate the 
   // asteroid shape
@@ -13,12 +13,15 @@ class Asteroid {
   float[] innerMeasurement; //array of random verticies on the interior
   float[] standardMeasurement; //array of verticies that don't change
 
+
   // Variables to store the position and movement
   float x, y;                 // Coordinates of the asteroid
   int xDirection, yDirection; // Horizontal and vertical direction of motion
   float speed;                // Speed of the movement
   int size;                   //Size of the asteroid (small, med, large)
   PVector location;           // PVector storing location of asteroid
+
+
 
   // Contructor
   Asteroid(float speed, int size) {
@@ -51,6 +54,7 @@ class Asteroid {
     // and scaling them to the asteroid size
     for (int i = 0; i < measurements.length; i++) {
       for (int m = 0; m < measurements[i].length; m++) {
+        // Divided by 4 - size to give appropriate length
         measurements[i][m] /= 4 - size;
       }
     }
@@ -99,7 +103,6 @@ class Asteroid {
       }
     }
   }
-
 
   /**************************************************************
    * Method: Asteroid.display()

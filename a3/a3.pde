@@ -26,13 +26,13 @@
  * ...
  * Video link: xxx
  **************************************************************/
-
 import ddf.minim.*;                // Import Minim sound library
 Minim minim;                       // Minium object to load music
 AudioPlayer backgroundSound;       // Object to play background music
 AudioPlayer bulletSound;           // Object to play projectile sound
 AudioPlayer explosionSound;        // Object to play explosion sound
 
+// PlayerShip and AlienShip objects
 PlayerShip player;
 AlienShip AlienShip;
 
@@ -41,15 +41,16 @@ ArrayList <Explosion> explosions = new ArrayList<Explosion>();
 ArrayList <Bullet> bullets = new ArrayList<Bullet>();
 ArrayList<Asteroid> asteroids = new ArrayList<Asteroid>();
 
-float bgColor = 0;
-int level = 1;
-int score; 
-float speedLevel;
-int asteroidCount = 5*level;  // number of asteroids to be generated
-int alienEntrySec = 40;       // entry second for AlienShip
+float bgColor = 0;         // Background colour (Black)
+int level;                 // Level counter
+int score;                 // Score counter
+float speedLevel;          // Speed level of asteroids
+int asteroidCount;         // number of asteroids to be generated
+int alienEntrySec = 40;    // entry second for AlienShip
+boolean startMode = true;  // Boolean flag for StartScreen
+boolean gameOver = false;  // Boolean flag for GameOverScreen
+// Boolean for user key input
 boolean sUP=false, sRIGHT=false, sLEFT=false;
-boolean startMode = true; // Boolean flag for StartScreen
-boolean gameOver = false; // Boolean flag for GameOverScreen
 
 //Images for startScreen
 PImage foo;
@@ -58,7 +59,7 @@ PImage astIcon;
 void setup() {
   size(800, 800);
 
-  // Create PlayerShip and AlienShip objects
+  // Initialize PlayerShip and AlienShip objects
   player = new PlayerShip(); 
   AlienShip = new AlienShip();
 
@@ -66,7 +67,7 @@ void setup() {
   minim = new Minim(this);
   bulletSound = minim.loadFile("./Audio/bulletSound.wav");
   explosionSound = minim.loadFile("./Audio/explosionSound.wav");
-  backgroundSound = minim.loadFile("./Audio/CreepySpace.mp3");
+  backgroundSound = minim.loadFile("./Audio/bensound-scifi.mp3");
   // Loop background sound
   backgroundSound.loop();
 
@@ -105,7 +106,7 @@ void draw() {
   collisionDetection(player, AlienShip);
 
   // Display AlienShip and periodically make the AlienShip
-  // move onto screen and shoot at PlayerShip
+  // move onto screen and shoot at PLayerShip
   AlienShip.display();
   if (second() % alienEntrySec == 0 && !AlienShip.active) {
     AlienShip.active = true;
@@ -191,7 +192,7 @@ void keyPressed() {
     if (startMode) {
       startMode = false;
     }
-    // Leave Game Over Screen and go back to Start Screen
+    // Leav Game Over Screen and go back to Start Screen
     if (gameOver) {
       startMode = true;
       gameOver = false;
@@ -237,15 +238,15 @@ void keyReleased() {
 void moveShip() {
   if (sUP) {
     // Accelerate PlayerShip
-    player.accel();
+    player.accelerate();// - CS
   }
   if (sRIGHT) {
     // Rotate PlayerShip clockwise
-    player.rotateRight();
+    player.rotateRight();// - CS
   }
   if (sLEFT) {
     // Rotate PlayerShip anti-clockwise
-    player.rotateLeft();
+    player.rotateLeft();// - CS
   }
 }
 
@@ -292,6 +293,7 @@ void displayScore() {
   // Display score as 7 digits before decimal point in top-left corner
   text("Score: " + nf(score, 7), scoreX, scoreY);
 }
+
 
 /***************************************************************************
  * Function: collisionDetection()
@@ -365,6 +367,7 @@ boolean circleToAsteroid(Asteroid roid, PVector circleLoc, int radius) {
     return false;
   }
 }
+
 
 /**********************************************************************
  * Function: collisionDetection()
@@ -476,6 +479,7 @@ void checkLevel() {
     speedLevel += speedIncrement; // increase speed
     player.reset(); // reset the player position on the screen
     player.active = false; // Ensure player invulnerability
+    asteroidCount = 5 + level;
     // generate new asteroids according to the asteroidCount variable
     for (int i = 0; i < asteroidCount; i++) {
       asteroids.add(new Asteroid(speedLevel, round(random(1, 3))));
@@ -493,7 +497,7 @@ void checkLevel() {
  game to the end-user
  ***************************************************************/
 void startScreen() {
-  // set background colour
+  // set background color
   background(bgColor); 
   int iconLength = 100;
   int fooX = 625;
@@ -504,14 +508,14 @@ void startScreen() {
   image(foo, fooX, fooY, iconLength, iconLength);
   image(astIcon, astIconX, astIconY, iconLength, iconLength);
 
-  // Set text colour, size and alignment
+  // Set text color, size and alignment
   int accelerateY = 440;
   int turnY = 460;
   int shootY = 480;
   fill(255); 
   textSize(36);
   textAlign(CENTER); 
-  text("ASTEROID CLONE", width/2, height/4); // Title
+  text("ASTEROIDS CLONE", width/2, height/4); // Title
   // Reset text size
   textSize(20); 
   text("CONTROLS", width/2, height/2);
@@ -521,7 +525,7 @@ void startScreen() {
   text("Press ENTER to Play", width/2, (height/4)*3);
   // Reset level, score, speed, lives and populate with Asteroids
   score = 0;
-  level = 1;
+  level = 0;
   speedLevel = 0.2;
   player.lives = 3;
   checkLevel();

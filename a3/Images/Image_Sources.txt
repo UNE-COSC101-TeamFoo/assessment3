@@ -1,4 +1,4 @@
 A list of Image sources:
 
 'asteoid.jpg' image sourced from: https://pxhere.com/en/photo/1141263
-'foo_was_here.jpg' created by Benjamin Nolan
+'foo_was_here.jpg' sourced from: https://commons.wikimedia.org/wiki/File:Foo_was_here.jpg

@@ -1,5 +1,6 @@
 A list of audio sources:
 
-'CreepySpace.mp3' audio sourced from: https://www.youtube.com/watch?v=kKy4k5qq9SQ
-'projectileSound.mp3' audio sourced from: 
-'explosionSound.mp3' audio sourced from:
+
+'bensound-scifi.mp3' audio sourced from: https://www.bensound.com/royalty-free-music/track/sci-fi (FREE license with attribution)
+'projectileSound.wav' audio sourced from: https://freesound.org/people/alphatrooper18/sounds/362423/
+'explosionSound.wav' audio sourced from: http://soundbible.com/suggest.php?q=bomb+explosion+1&x=0&y=0
