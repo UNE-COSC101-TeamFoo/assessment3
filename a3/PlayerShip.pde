@@ -178,7 +178,7 @@ class PlayerShip {
       // Hard-coded as under score text box
       int x = belowScoreX + i * spaceBetween;
       int y = belowScoreY;
-      quad(x, y-radius, x-radius, y+radius, x, y+shipIndent, x+radius, y+radius);
+      quad(x,y-radius,x-radius,y+radius,x,y+shipIndent,x+radius,y+radius);
     }
   }
 

@@ -14,7 +14,7 @@ class AlienShip {
   int alienBuffer = 100;     // Amount of pixels an AlienShip can move offscreen
   int fiveSeconds = 300;     // Amount of frames in 5 seconds
   float xRandom, yRandom;    // Floats to load random start into
-  
+
   // Constructor
   AlienShip() {
     PVector start = new PVector();
@@ -22,37 +22,37 @@ class AlienShip {
     location = new PVector(start.x, start.y);
     velocity = new PVector(1, 1);
   }
-  
+
   /*******************************************************************
    * Method: AlienShip.move()
    * Parameters: None
    * Returns: Void
    * Desc: This method moves the AlienShip and limits it movement to
-   a little off screen, at which point the ALienShip's direction is
-   
+   a little off screen, at which point the AlienShip's direction is
+   reversed
    ******************************************************************/
   void move() {
     // If AlienShip travels too far right or left
     if (location.x > (width + alienBuffer)|| location.x < -alienBuffer) {
       velocity.x *= -1;
     }
-    
+
     // If AlienShip travels too far up or down
     if (location.y > (height + alienBuffer)|| location.y < -alienBuffer) {
       velocity.y *= -1;
     }
-    
+
     // Add speed times velocity to location
     location.x += AlienShipSpeed * velocity.x;
     location.y += AlienShipSpeed * velocity.y;
   }
-  
+
   /*******************************************************************
    * Method: AlienShip.display()
    * Parameters: None
    * Returns: Void
-   * Desc: This method moves the AlienShip on screen and shoots a 
-   bullet towards PlayerShip every 5 seconds if AlienShip is on screen
+   * Desc: This method displays the AlienShip object to the screen 
+   as two circles with different radii but the same origin
    ******************************************************************/
   void display() {
     // Outer circle of AlienShip
@@ -70,7 +70,7 @@ class AlienShip {
    * Method: AlienShip.approach()
    * Parameters: None
    * Returns: Void
-   * Desc: This method moves the AlienShip on screen and shoots a 
+   * Desc: This method moves the AlienShip on screen if active and shoots a 
    bullet towards PlayerShip every 5 seconds if AlienShip is on screen
    ******************************************************************/
   void approach() {
@@ -93,30 +93,31 @@ class AlienShip {
    * Method: AlienShip.randomStart()
    * Parameters: None
    * Returns: Void
-   * Desc: This method randomizes and resets the AlienShip's location
+   * Desc: This method randomizes the start and reset location of 
+   the AlienShip object
    ******************************************************************/
   PVector randomStart() {
     // Random int to decide what start AlienShip will have
     int randCount = int(random(1, 4));
     if (randCount <=1) {
       // Random start is to the left of the screen
-      xRandom = random(-100, -50);
+      xRandom = random(-alienBuffer/2, -alienBuffer);
       yRandom = random(0, height);
     } 
     // Random start is below the bottom of the screen
     else if (1 < randCount || randCount <=2) {
       xRandom = random(0, width);
-      yRandom = random(height+50, height +100);
+      yRandom = random(height + alienBuffer/2, height + alienBuffer);
     } 
-    // Random start is to the left off screen
+    // Random start is to the right off screen
     else if (2 < randCount || randCount <=3) {
-      xRandom = random(width+50, width+100);
+      xRandom = random(width + alienBuffer/2, width + alienBuffer);
       yRandom = random(0, width);
     } 
     // Random start is above the top of the screen
     else {
       xRandom = random(0, width);
-      yRandom = random(-50, -100);
+      yRandom = random(-alienBuffer/2, -alienBuffer);
     }
     // Return random start as PVector
     PVector start = new PVector(xRandom, yRandom);
