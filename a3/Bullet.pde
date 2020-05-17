@@ -63,8 +63,8 @@ class Bullet {
    * Method: Bullet.display()
    * Parameters: None
    * Returns: Void
-   * Desc: This method displays the bullet, the bullets colour
-   dependent on its 'originType' attribute
+   * Desc: This method displays the bullet and the bullets colour
+   is dependent on its 'originType' attribute
    ***************************************************************/
   void display() {
     if (originType == "PLAYER") {

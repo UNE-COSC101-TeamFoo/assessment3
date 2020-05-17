@@ -13,6 +13,9 @@ class Asteroid {
   float[] innerMeasurement; //array of random verticies on the interior
   float[] standardMeasurement; //array of verticies that don't change
 
+  // Array to store the arrays of measurements
+  float[][] measurements;
+
 
   // Variables to store the position and movement
   float x, y;                 // Coordinates of the asteroid
@@ -47,7 +50,7 @@ class Asteroid {
     standardMeasurement = new float[] {10, 100, 90, 50, 40};
 
     // Create an 2D array for the measurement arrays
-    float[][] measurements = {lengthMeasurement, heightMeasurement, 
+    measurements = new float[][] {lengthMeasurement, heightMeasurement, 
       innerMeasurement, standardMeasurement};
 
     // Using a two loop structure iterate through all measurements
@@ -108,9 +111,8 @@ class Asteroid {
    * Method: Asteroid.display()
    * Parameters: none
    * Returns: Void
-   * Desc: Function to generate the asteroids when being drawn
-   based on the measurements randomized when the asteroids are first
-   stored in the array.
+   * Desc: Function to display the asteroids based on the measurements
+   randomized when the asteroids are first stored in the array.
    ***************************************************************/
   void display() {
     // draw the shape using the generated measurements
@@ -141,7 +143,6 @@ class Asteroid {
    asteroids (if possible)
    ***************************************************************/
   void splitAsteroid() {
-    calculateScore(this);// calculates the score earned by destroying it
     float xposTemp = this.x;// sets coordinates of current asteroid
     float yposTemp = this.y;// sets coordinates of current asteroid
     int sizeTemp = this.size;// sets size of current asteroid

@@ -1,5 +1,5 @@
 /**************************************************************
- * Class: Asteroid()
+ * Class: Explosion()
  * Constructor: Float(x), Float(y)
  * Desc: This class creates an object that displays and updates 
  an explosion effect around an origin point, periodically 

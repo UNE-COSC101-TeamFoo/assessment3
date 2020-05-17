@@ -1,7 +1,7 @@
 /**************************************************************
  * File: a3.pde
- * Last modified: 16/05/2020
- * Group: <Benjamin Nolan,Elsa Gaskell,Callum Sandercock>
+ * Last modified: 17/05/2020
+ * Group: <Benjamin Nolan, Elsa Gaskell, Callum Sandercock>
  * Date Commenced: 21/03/2020
  * Date Completed MVP + Features: 12/05/2020
  * Course: COSC101 - Software Development Studio 1
@@ -13,19 +13,16 @@
  * a life everytime they collide with another object or are successfully hit.
  * ...
  * Usage: Make sure to run in the processing environment and press play etc...
- * Notes: If any third party items are use they need to be credited (don't use
- * anything with copyright - unless you have permission)
- * ...
+ * ... 
  * IMPORTANT! Please install Minim before running (for sound library).
  * ...
  * ...
  * PLAYER INSTRUCTIONS!
  * Please use Spacebar to shoot from PlayerShip.
  * Use Up, Left and Right arrow keys to move PlayerShip
- * ...
- * ...
- * Video link: xxx
  **************************************************************/
+
+
 import ddf.minim.*;                // Import Minim sound library
 Minim minim;                       // Minium object to load music
 AudioPlayer backgroundSound;       // Object to play background music
@@ -49,10 +46,10 @@ int asteroidCount;         // number of asteroids to be generated
 int alienEntrySec = 40;    // entry second for AlienShip
 boolean startMode = true;  // Boolean flag for StartScreen
 boolean gameOver = false;  // Boolean flag for GameOverScreen
-// Boolean for user key input
+// Booleans for user key input
 boolean sUP=false, sRIGHT=false, sLEFT=false;
 
-//Images for startScreen
+// Images for startScreen
 PImage foo;
 PImage astIcon;
 
@@ -254,21 +251,18 @@ void moveShip() {
  * Function: calculateScore()
  * Parameters: Asteroid(roid or AlienShip(alien)
  * Returns: Void
- * Desc: Increments the score if the asteroid was destroyed
- without the player losing a life. Overloaded function to work
- with different objects as parameters
+ * Desc: Increments the score if the asteroid was destroyed. 
+ Overloaded function to work with different objects as parameters
  ***************************************************************/
 void calculateScore (Asteroid roid) {
-  if (player.active) {
-    if (roid.size == 1) {
-      score += 500;
-    }
-    if (roid.size == 2) {
-      score += 250;
-    }
-    if (roid.size == 3) {
-      score += 100;
-    }
+  if (roid.size == 1) {
+    score += 500;
+  }
+  if (roid.size == 2) {
+    score += 250;
+  }
+  if (roid.size == 3) {
+    score += 100;
   }
 }
 
@@ -296,7 +290,7 @@ void displayScore() {
 
 
 /***************************************************************************
- * Function: collisionDetection()
+ * Function: circleToAsteroid()
  * Parameters: Asteroid(roid), PVector(circleLoc), int(radius)
  * Returns: boolean
  * Desc: This function treats the Asteroid object as a rectangle. Then it
@@ -371,7 +365,7 @@ boolean circleToAsteroid(Asteroid roid, PVector circleLoc, int radius) {
 
 /**********************************************************************
  * Function: collisionDetection()
- * Parameters: Playership(p1), AlienShip(a2)
+ * Parameters: PlayerShip(p1), AlienShip(a2)
  * Returns: Void
  * Desc: Detects collision between PlayerShip and AlienShip through
  calculating distance between PVector locations. If less than the 
@@ -389,7 +383,7 @@ void collisionDetection(PlayerShip p1, AlienShip a2) {
 
 /****************************************************************************
  * Function: collisionDetection()
- * Parameters: Asteroid(roid), Playership(p1)
+ * Parameters: Asteroid(roid), PlayerShip(p1)
  * Returns: Void
  * Desc: Detects collision between Asteroid and PlayerShip through
  the 'circleToAsteroid' function, treating the PlayerShip as a circle.
@@ -448,7 +442,9 @@ boolean collisionDetection(Bullet bullet) {
     for (int m = 0; m < asteroids.size(); m++) {
       Asteroid roid = asteroids.get(m);
       if (circleToAsteroid(roid, bullet.location, bullet.radius)) {
-        // Add explosion, split/remove Asteroid and 'checkLevel' function
+        // Add explosion, split/remove Asteroid, 'checkLevel' function
+        // and update score
+        calculateScore(roid);
         explosions.add(new Explosion(roid.x, roid.y));
         roid.splitAsteroid();
         asteroids.remove(roid);
